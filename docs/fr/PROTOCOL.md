@@ -107,7 +107,11 @@ Sonde de vie légère : `{ "status": "ok" }`.
 
 ## Annonce réseau (morfBeacon)
 
-En parallèle de l'API, morfSensor diffuse un heartbeat UDP `morfbeacon/1` sur le
-port du parc (45454 par défaut), avec `app: "morfSensor"` et `status_port` égal
-au port HTTP réel. Un superviseur découvre ainsi le service sans configuration.
-Voir la documentation de morfBeacon pour le format du datagramme.
+Quand morfSensor est compilé **avec** morfBeacon (dépendance facultative), il
+diffuse en parallèle de l'API un heartbeat UDP `morfbeacon/1` sur le port du parc
+(45454 par défaut), avec `app: "morfSensor"` et `status_port` égal au port HTTP
+réel. Un superviseur découvre ainsi le service sans configuration. Voir la
+documentation de morfBeacon pour le format du datagramme.
+
+Compilé **sans** morfBeacon, morfSensor ne diffuse pas de heartbeat : seule
+l'API HTTP est disponible (le superviseur doit alors connaître son URL).

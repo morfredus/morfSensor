@@ -11,8 +11,12 @@
 #include "morfsensor/ISensor.h"
 #include "morfsensor/Version.h"
 
-#include "morfbeacon/Heartbeat.h"
-#include "morfbeacon/PresenceConfig.h"
+#ifdef MORFSENSOR_HAVE_MORFBEACON
+#  include "morfbeacon/Heartbeat.h"
+#  include "morfbeacon/PresenceConfig.h"
+#else
+#  include <QLoggingCategory>
+#endif
 
 #include <utility>
 
@@ -46,6 +50,7 @@ bool SensorService::start() {
 
     const bool httpOk = (m_config.httpPort == 0) ? true : m_http->start();
 
+#ifdef MORFSENSOR_HAVE_MORFBEACON
     if (m_config.beaconEnabled) {
         morfbeacon::PresenceConfig pc;
         pc.appName             = m_config.appName;
@@ -60,13 +65,22 @@ bool SensorService::start() {
         m_heartbeat = new morfbeacon::Heartbeat(pc, m_registry, this);
         m_heartbeat->start();
     }
+#else
+    // Compile sans morfBeacon : pas d'annonce LAN. Le service reste pleinement
+    // utilisable via son API HTTP ; on le signale une fois au demarrage.
+    if (m_config.beaconEnabled)
+        qWarning("morfSensor compile sans morfBeacon : annonce LAN desactivee "
+                 "(API HTTP active).");
+#endif
 
     return httpOk;
 }
 
 void SensorService::stop() {
+#ifdef MORFSENSOR_HAVE_MORFBEACON
     if (m_heartbeat)
         m_heartbeat->stop();
+#endif
     if (m_http)
         m_http->stop();
     m_registry->stopAll();

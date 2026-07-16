@@ -56,17 +56,23 @@ Reading example (generic, whatever the type):
 
 ## Build
 
-Needs Qt 6 (Core, Network; **SerialPort** for UART sensors) and the **morfBeacon**
-library cloned alongside (`../morfBeacon`).
+Needs Qt 6 (Core, Network; **SerialPort** for UART sensors). **morfBeacon** is an
+**optional** build dependency (for the LAN announce).
 
 ```sh
 cmake --preset mingw        # or linux / linux-arm64
 cmake --build --preset mingw
 ```
 
-> If Qt SerialPort is missing, morfSensor still builds (core + `mock` sensor);
-> only the LD2410C driver is disabled. On the Raspberry Pi:
-> `sudo apt install libqt6serialport6-dev`.
+Both external dependencies are optional — a missing one is a **warning, never a
+build failure** (so the library can be compiled/delivered on any platform):
+
+> - **morfBeacon absent** → morfSensor builds without the LAN announce (HTTP API
+>   only). Provide it to enable the heartbeat: install it, or point
+>   `-DMORFSENSOR_MORFBEACON_DIR=/path/to/morfBeacon` (defaults to the sibling
+>   `../morfBeacon_travail`).
+> - **Qt SerialPort absent** → the LD2410C driver is disabled (core + `mock`
+>   sensor still build). On the Raspberry Pi: `sudo apt install libqt6serialport6-dev`.
 
 ## Run
 

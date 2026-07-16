@@ -79,11 +79,23 @@ calculé, si bien que le serveur HTTP répond sans jamais bloquer sur une lectur
 matérielle. Un driver qui parle à un bus lent doit rester asynchrone (timers,
 `QSerialPort::readyRead`) et ne publier qu'un instantané.
 
-## Dépendance morfBeacon
+## Dépendance morfBeacon (facultative)
 
-morfSensor réutilise `morfbeacon::Heartbeat` pour l'annonce de présence sur le
-LAN (aucune duplication de code réseau). Le dépôt morfBeacon est attendu à côté
-(`../morfBeacon`) ou pointé par `-DMORFSENSOR_MORFBEACON_DIR=...`.
+Quand morfBeacon est disponible, morfSensor réutilise `morfbeacon::Heartbeat`
+pour l'annonce de présence sur le LAN (aucune duplication de code réseau), et le
+`SensorRegistry` implémente `morfbeacon::IMetricsProvider` pour alimenter le
+heartbeat et `/status`.
+
+morfBeacon est **facultatif au build** : on part du principe qu'il est fourni par
+le système. S'il est introuvable, le CMake n'émet qu'une **alerte** (jamais
+d'échec) et morfSensor est compilé **sans** l'annonce LAN — l'API HTTP reste
+pleinement fonctionnelle. Cela permet de compiler/livrer la bibliothèque sur une
+plateforme où morfBeacon n'est pas présent. Tout le couplage à morfBeacon est
+isolé derrière la macro `MORFSENSOR_HAVE_MORFBEACON` (posée par CMake).
+
+Ordre de recherche : cible déjà définie → `find_package(morfBeacon)` (paquet
+installé) → sources `MORFSENSOR_MORFBEACON_DIR` (voisin `../morfBeacon_travail`
+par défaut). Même logique que Qt SerialPort pour le driver LD2410C.
 
 ## Portabilité
 

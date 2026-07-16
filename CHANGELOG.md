@@ -15,7 +15,9 @@ et du [versionnage sémantique](https://semver.org/lang/fr/).
   de rapport, lissage de présence, resynchronisation et reconnexion auto.
 - **Capteur simulé** (`MockSensor`) pour tester l'API sans matériel.
 - **Annonce LAN via morfBeacon** (heartbeat UDP) : découverte automatique par le
-  parc, `status_port` aligné sur le port HTTP réel.
+  parc, `status_port` aligné sur le port HTTP réel. Dépendance **facultative** au
+  build : absente, une simple alerte est émise et morfSensor compile sans
+  l'annonce (API HTTP seule), permettant la compilation sur toute plateforme.
 - **Démon `morfsensor`** (config JSON, `--config`, `--list-types`, repli sur un
   capteur simulé si aucune config).
 - **Service systemd** : `install-service.sh`, `update-service.sh`,

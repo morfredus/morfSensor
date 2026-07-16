@@ -56,17 +56,24 @@ Exemple de lecture (générique, quel que soit le type) :
 
 ## Compiler
 
-Nécessite Qt 6 (Core, Network ; **SerialPort** pour les capteurs UART) et la
-bibliothèque **morfBeacon** clonée à côté (`../morfBeacon`).
+Nécessite Qt 6 (Core, Network ; **SerialPort** pour les capteurs UART).
+**morfBeacon** est une dépendance de build **facultative** (pour l'annonce LAN).
 
 ```sh
 cmake --preset mingw        # ou linux / linux-arm64
 cmake --build --preset mingw
 ```
 
-> Si Qt SerialPort est absent, morfSensor compile quand même (cœur + capteur
-> `mock`) ; seul le driver LD2410C est désactivé. Sur le Raspberry :
-> `sudo apt install libqt6serialport6-dev`.
+Les deux dépendances externes sont facultatives — une absence est une **alerte,
+jamais un échec de compilation** (pour pouvoir compiler/livrer la bibliothèque
+sur n'importe quelle plateforme) :
+
+> - **morfBeacon absent** → morfSensor compile sans l'annonce LAN (API HTTP
+>   seule). Pour activer le heartbeat : l'installer, ou pointer
+>   `-DMORFSENSOR_MORFBEACON_DIR=/chemin/vers/morfBeacon` (par défaut le voisin
+>   `../morfBeacon_travail`).
+> - **Qt SerialPort absent** → le driver LD2410C est désactivé (cœur + capteur
+>   `mock` compilent). Sur le Raspberry : `sudo apt install libqt6serialport6-dev`.
 
 ## Lancer
 
