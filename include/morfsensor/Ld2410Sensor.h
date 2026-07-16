@@ -50,6 +50,7 @@ public:
 
 private:
     bool openPort();                 // tente d'ouvrir le port serie
+    void closePortQuietly();         // ferme le port SANS re-emettre errorOccurred
     void onReadyRead();              // octets recus -> tampon
     void parseBuffer();              // extrait les trames completes du tampon
     void applyFrame(const QByteArray& payload); // decode une trame valide
@@ -68,6 +69,7 @@ private:
     QByteArray   m_buffer;           // octets en attente de decodage
 
     qint64        m_lastPresenceMs = 0; // horodatage (monotone) de la derniere detection
+    bool          m_handlingError = false; // garde anti-recursion errorOccurred
     SensorReading m_last;
 };
 

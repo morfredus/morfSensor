@@ -63,13 +63,25 @@ Ld2410Sensor::Ld2410Sensor(const QString& id, const QString& portName, int baud,
             [this](QSerialPort::SerialPortError err) {
                 if (err == QSerialPort::NoError)
                     return;
-                // Erreur materielle (capteur debranche, port disparu) :
-                // on ferme et on bascule en reessai periodique.
-                m_port->close();
+                // Garde ANTI-RECURSION : QSerialPort::close() re-emet
+                // errorOccurred. Sans cette garde, close() ci-dessous rappelle
+                // ce gestionnaire, qui rappelle close()... -> debordement de
+                // pile et SIGSEGV. (Se declenche des que l'ouverture du port
+                // echoue : UART non active, droits manquants, capteur absent.)
+                if (m_handlingError)
+                    return;
+                m_handlingError = true;
+
+                const QString reason = m_port->errorString();
+                // Erreur materielle (capteur debranche, port disparu, ouverture
+                // impossible) : on ferme proprement et on bascule en reessai.
+                closePortQuietly();
                 setUnavailable(QStringLiteral("error"),
-                               QStringLiteral("serial error: ") + m_port->errorString());
+                               QStringLiteral("serial error: ") + reason);
                 if (!m_reconnectTimer->isActive())
                     m_reconnectTimer->start();
+
+                m_handlingError = false;
             });
 
     // Instantane initial : capteur declare mais pas encore de trame.
@@ -96,8 +108,18 @@ bool Ld2410Sensor::start() {
 void Ld2410Sensor::stop() {
     m_reconnectTimer->stop();
     m_staleTimer->stop();
-    if (m_port->isOpen())
-        m_port->close();
+    closePortQuietly();
+}
+
+void Ld2410Sensor::closePortQuietly() {
+    // Ferme le port en bloquant temporairement ses signaux : QSerialPort::close()
+    // emet errorOccurred, ce qui, si on est deja dans le gestionnaire d'erreur,
+    // provoquerait une recursion. blockSignals casse cette chaine proprement.
+    if (!m_port->isOpen())
+        return;
+    m_port->blockSignals(true);
+    m_port->close();
+    m_port->blockSignals(false);
 }
 
 SensorReading Ld2410Sensor::lastReading() const {

@@ -27,6 +27,16 @@ et du [versionnage sémantique](https://semver.org/lang/fr/).
 - **Qt SerialPort optionnel** : le service compile sans lui (cœur + `mock`).
 - Documentation FR (architecture, protocole, intégration, câblage).
 
+### Corrigé
+
+- **LD2410C : crash (SIGSEGV) au démarrage** quand le port série ne peut pas
+  s'ouvrir (UART non activé, droits manquants, capteur absent). Le gestionnaire
+  d'erreur appelait `QSerialPort::close()`, qui ré-émet `errorOccurred` →
+  récursion infinie → débordement de pile. Corrigé par une garde anti-récursion
+  et une fermeture « silencieuse » (signaux bloqués pendant `close()`). Le
+  service reste debout et retente l'ouverture ; le capteur est simplement
+  rapporté `available:false, state:error` tant que le port est injoignable.
+
 ### Intégration
 
 - **RaspberryDashboard** interroge `/presence` (`presence_sensor.py`) : la
