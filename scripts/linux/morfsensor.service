@@ -1,0 +1,31 @@
+# Service systemd pour morfSensor.
+#
+# Le binaire et sa configuration sont INSTALLES dans un dossier fixe (par defaut
+# /opt/morfsensor), independant du clone git : deplacer/renommer le depot (ou une
+# synchro Syncthing) ne casse pas le service. install-service.sh remplace
+# __RUN_USER__ et __APP_DIR__.
+#
+# Nom d'unite : « morfsensor ». Un superviseur (RaspberryDashboard) peut le
+# surveiller par ce nom (systemctl is-active morfsensor) en plus d'interroger
+# son API HTTP.
+
+[Unit]
+Description=morfSensor — service de capteurs (LD2410C et autres)
+After=local-fs.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__RUN_USER__
+Group=__RUN_USER__
+WorkingDirectory=__APP_DIR__
+ExecStart=__APP_DIR__/morfsensor --config __APP_DIR__/morfsensor.json
+Restart=always
+RestartSec=5
+# Acces au port serie du capteur (LD2410C sur UART).
+SupplementaryGroups=dialout
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

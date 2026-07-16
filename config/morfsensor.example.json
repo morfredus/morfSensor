@@ -1,0 +1,33 @@
+{
+  "_comment": "Configuration morfSensor. Copier en 'morfsensor.json' et adapter. Le service lit ce fichier via --config, ou le cherche dans le dossier courant, a cote du binaire, ou dans /etc/morfsensor/.",
+
+  "app_name": "morfSensor",
+  "http_port": 8788,
+  "bind_address": "0.0.0.0",
+
+  "beacon": {
+    "_comment": "Annonce de presence sur le LAN (protocole morfBeacon, port du parc).",
+    "enabled": true,
+    "udp_port": 45454,
+    "interval_ms": 15000
+  },
+
+  "sensors": [
+    {
+      "_comment": "Radar de presence HLK-LD2410C sur l'UART du Raspberry Pi.",
+      "type": "ld2410",
+      "id": "presence-salon",
+      "port": "/dev/ttyAMA0",
+      "baud": 256000,
+      "presence_hold_ms": 2000,
+      "stale_ms": 3000
+    },
+    {
+      "_comment": "Capteur simule : decommenter pour tester sans materiel (Windows/dev).",
+      "type": "mock",
+      "id": "presence-sim",
+      "period_ms": 8000,
+      "_disabled_hint": "Pour ne PAS l'activer, retirer cet objet du tableau."
+    }
+  ]
+}
