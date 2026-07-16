@@ -38,14 +38,27 @@ Pi 3/4/5, et le port GPIO n'a que le « mini-UART » (`ttyS0`), peu fiable à
    enable_uart=1
    dtoverlay=disable-bt
    ```
-3. Redémarrer. Le capteur est alors sur **`/dev/ttyAMA0`** (alias souvent
-   `/dev/serial0`).
+3. Redémarrer.
+
+**Quel port utiliser ?** Toujours **`/dev/serial0`** : c'est un alias qui pointe
+vers l'UART GPIO primaire, quel que soit le montage réel (`ttyAMA0` = PL011, ou
+`ttyS0` = mini-UART). Vérifier vers quoi il pointe :
+
+```sh
+ls -l /dev/serial0        # -> ttyAMA0 (BT désactivé) ou ttyS0 (mini-UART)
+```
+
+- `-> ttyAMA0` : PL011, **fiable à 256000 bauds** (recommandé ; obtenu avec
+  `dtoverlay=disable-bt`).
+- `-> ttyS0` : mini-UART. Fonctionne **à condition** que `enable_uart=1` soit
+  présent (il verrouille l'horloge, sinon le débit dérive et aucune trame n'est
+  décodée).
 
 Vérifier la présence de trames :
 
 ```sh
-stty -F /dev/ttyAMA0 256000 raw -echo
-timeout 2 cat /dev/ttyAMA0 | xxd | head   # on doit voir des motifs f4 f3 f2 f1 ...
+sudo stty -F /dev/serial0 256000 raw -echo
+sudo timeout 2 cat /dev/serial0 | xxd | head   # on doit voir des motifs f4 f3 f2 f1 ...
 ```
 
 ## Configurer morfSensor
@@ -56,7 +69,7 @@ Dans `morfsensor.json` :
 {
   "type": "ld2410",
   "id": "presence-salon",
-  "port": "/dev/ttyAMA0",
+  "port": "/dev/serial0",
   "baud": 256000,
   "presence_hold_ms": 2000,
   "stale_ms": 3000

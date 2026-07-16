@@ -12,22 +12,17 @@
     "interval_ms": 15000
   },
 
+  "_test_sans_materiel": "Pour tester sans capteur, remplacer le tableau 'sensors' ci-dessous par : [ { \"type\": \"mock\", \"id\": \"presence-sim\", \"period_ms\": 8000 } ]. NE PAS laisser un 'mock' a cote d'un vrai capteur : /presence fait un OU, le mock basculerait 'present' tout seul et reveillerait l'ecran en permanence.",
+
   "sensors": [
     {
-      "_comment": "Radar de presence HLK-LD2410C sur l'UART du Raspberry Pi.",
+      "_comment": "Radar HLK-LD2410C sur l'UART du Raspberry Pi. Utiliser /dev/serial0 (alias qui vise toujours l'UART GPIO primaire) plutot que /dev/ttyAMA0 ou /dev/ttyS0, qui varient selon la config Bluetooth. Sous Windows : COMx.",
       "type": "ld2410",
       "id": "presence-salon",
-      "port": "/dev/ttyAMA0",
+      "port": "/dev/serial0",
       "baud": 256000,
       "presence_hold_ms": 2000,
       "stale_ms": 3000
-    },
-    {
-      "_comment": "Capteur simule : decommenter pour tester sans materiel (Windows/dev).",
-      "type": "mock",
-      "id": "presence-sim",
-      "period_ms": 8000,
-      "_disabled_hint": "Pour ne PAS l'activer, retirer cet objet du tableau."
     }
   ]
 }
