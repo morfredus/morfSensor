@@ -24,9 +24,9 @@ find_package(Qt6 QUIET COMPONENTS SerialPort)
 
 # --- Dependance morfBeacon (heartbeat UDP + annonce de presence) ----------
 # morfSensor s'annonce sur le LAN via morfBeacon. Le dossier voisin est utilise
-# par defaut (layout de l'atelier : projets cote a cote dans 01-Travail).
+# par defaut (layout de l'atelier : projets cote a cote dans morfSystem).
 # Surcharger avec -DMORFSENSOR_MORFBEACON_DIR=/chemin/vers/morfBeacon.
-set(MORFSENSOR_MORFBEACON_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../morfBeacon_travail"
+set(MORFSENSOR_MORFBEACON_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../morfBeacon"
     CACHE PATH "Chemin des sources de la bibliotheque morfBeacon")
 
 if(NOT TARGET morfBeacon::morfBeacon)

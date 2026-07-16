@@ -83,7 +83,7 @@ matérielle. Un driver qui parle à un bus lent doit rester asynchrone (timers,
 
 morfSensor réutilise `morfbeacon::Heartbeat` pour l'annonce de présence sur le
 LAN (aucune duplication de code réseau). Le dépôt morfBeacon est attendu à côté
-(`../morfBeacon_travail`) ou pointé par `-DMORFSENSOR_MORFBEACON_DIR=...`.
+(`../morfBeacon`) ou pointé par `-DMORFSENSOR_MORFBEACON_DIR=...`.
 
 ## Portabilité
 

@@ -57,7 +57,7 @@ Exemple de lecture (générique, quel que soit le type) :
 ## Compiler
 
 Nécessite Qt 6 (Core, Network ; **SerialPort** pour les capteurs UART) et la
-bibliothèque **morfBeacon** clonée à côté (`../morfBeacon_travail`).
+bibliothèque **morfBeacon** clonée à côté (`../morfBeacon`).
 
 ```sh
 cmake --preset mingw        # ou linux / linux-arm64

@@ -57,7 +57,7 @@ Reading example (generic, whatever the type):
 ## Build
 
 Needs Qt 6 (Core, Network; **SerialPort** for UART sensors) and the **morfBeacon**
-library cloned alongside (`../morfBeacon_travail`).
+library cloned alongside (`../morfBeacon`).
 
 ```sh
 cmake --preset mingw        # or linux / linux-arm64
