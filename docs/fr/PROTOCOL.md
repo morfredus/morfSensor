@@ -97,9 +97,27 @@ dashboard) le lisent tel quel.
   "app": "morfSensor", "host": "pi4fred", "version": "0.1.0",
   "proto": "morfsensor/1", "state": "ok", "uptime_s": 3600,
   "ts": 1784206069,
-  "metrics": { "sensors_total": 2, "sensors_available": 2, "presence": true }
+  "metrics": { "sensors_total": 2, "sensors_available": 2, "presence": true },
+  "beacon": { "enabled": true, "active": true, "udp_port": 45454 }
 }
 ```
+
+### Savoir si l'annonce LAN est active (`beacon`)
+
+morfBeacon n'est **pas** un service séparé : c'est une bibliothèque embarquée
+*dans* morfSensor. Il n'y a donc rien à interroger avec `systemctl status
+morfbeacon` (l'unité n'existe pas, et Windows n'a pas `systemctl`). C'est
+morfSensor qui **rapporte lui-même** l'état de son annonce, dans `/status` :
+
+| Champ `beacon` | Sens |
+|---|---|
+| `enabled` | l'annonce est-elle demandée dans la config (`beacon.enabled`) ? |
+| `active` | est-elle réellement émise ? |
+| `udp_port` | port du heartbeat (présent seulement si `active`) |
+
+Un superviseur teste `beacon.active` de façon **identique sous Linux et Windows**
+(simple requête HTTP). Pour la vivacité du service morfSensor lui-même :
+`GET /healthz` (portable), ou `systemctl is-active morfsensor` (Linux uniquement).
 
 ## `GET /healthz`
 

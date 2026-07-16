@@ -79,23 +79,22 @@ calculé, si bien que le serveur HTTP répond sans jamais bloquer sur une lectur
 matérielle. Un driver qui parle à un bus lent doit rester asynchrone (timers,
 `QSerialPort::readyRead`) et ne publier qu'un instantané.
 
-## Dépendance morfBeacon (facultative)
+## Dépendance morfBeacon (embarquée / vendorée)
 
-Quand morfBeacon est disponible, morfSensor réutilise `morfbeacon::Heartbeat`
-pour l'annonce de présence sur le LAN (aucune duplication de code réseau), et le
-`SensorRegistry` implémente `morfbeacon::IMetricsProvider` pour alimenter le
-heartbeat et `/status`.
+morfSensor réutilise `morfbeacon::Heartbeat` pour l'annonce de présence sur le
+LAN (aucune duplication de code réseau), et le `SensorRegistry` implémente
+`morfbeacon::IMetricsProvider` pour alimenter le heartbeat et `/status`.
 
-morfBeacon est **facultatif au build** : on part du principe qu'il est fourni par
-le système. S'il est introuvable, le CMake n'émet qu'une **alerte** (jamais
-d'échec) et morfSensor est compilé **sans** l'annonce LAN — l'API HTTP reste
-pleinement fonctionnelle. Cela permet de compiler/livrer la bibliothèque sur une
-plateforme où morfBeacon n'est pas présent. Tout le couplage à morfBeacon est
-isolé derrière la macro `MORFSENSOR_HAVE_MORFBEACON` (posée par CMake).
+morfBeacon est **embarqué** dans `third_party/morf/beacon` (copie vendorée, liée
+statiquement), comme le font ComponentHub et SiteWatch. Le build ne dépend donc
+d'**aucun dépôt externe** : `add_subdirectory(third_party/morf/beacon)` suffit,
+et morfSensor se compile du premier coup, à l'identique sur toutes les
+plateformes. Rien n'est à installer ni à cloner à côté.
 
-Ordre de recherche : cible déjà définie → `find_package(morfBeacon)` (paquet
-installé) → sources `MORFSENSOR_MORFBEACON_DIR` (voisin `../morfBeacon_travail`
-par défaut). Même logique que Qt SerialPort pour le driver LD2410C.
+Ne pas éditer le code sous `third_party/` : la **source de vérité** est le dépôt
+morfBeacon. Pour resynchroniser la copie : `scripts/sync-morf.(sh|ps1)` (recopie
+`include/`, `src/`, `VERSION` ; ne touche pas au `CMakeLists.txt` vendoré,
+volontairement allégé).
 
 ## Portabilité
 

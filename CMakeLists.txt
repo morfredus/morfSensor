@@ -22,44 +22,16 @@ find_package(Qt6 REQUIRED COMPONENTS Core Network)
 # serie sont simplement absents. Sur le Raspberry : paquet libqt6serialport6.
 find_package(Qt6 QUIET COMPONENTS SerialPort)
 
-# --- Dependance morfBeacon (annonce de presence sur le LAN) — FACULTATIVE ---
-# En fonctionnement, morfSensor s'annonce via morfBeacon (heartbeat UDP). Mais
-# on part du principe que morfBeacon est fourni par le systeme (deja installe) :
-# morfSensor n'a PAS a l'embarquer ni a le compiler obligatoirement. On se
-# contente de VERIFIER sa presence.
+# --- Dependance morfBeacon (annonce de presence sur le LAN) ---------------
+# morfBeacon est EMBARQUE (copie vendoree) dans third_party/morf/beacon, lie
+# statiquement, comme le font ComponentHub / SiteWatch. morfSensor se compile
+# ainsi sans dependre d'aucun depot externe : parfait et fonctionnel du premier
+# coup, a l'identique sous Windows, Linux x64 et Raspberry Pi (ARM64).
 #
-# Si morfBeacon est introuvable : simple ALERTE, la compilation continue. Cela
-# permet de compiler la bibliotheque morfSensor sur n'importe quelle plateforme
-# (pour la livrer) sans avoir morfBeacon sous la main. L'annonce LAN est alors
-# absente ; l'API HTTP (le cœur) fonctionne quand meme.
-#
-# Ordre de recherche :
-#   1. cible morfBeacon::morfBeacon deja definie (build parent) ;
-#   2. paquet installe   -> find_package(morfBeacon) ;
-#   3. sources fournies  -> MORFSENSOR_MORFBEACON_DIR (dossier voisin par defaut).
-set(MORFSENSOR_MORFBEACON_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../morfBeacon_travail"
-    CACHE PATH "Chemin des sources de morfBeacon (si non installe comme paquet)")
-
-set(MORFSENSOR_HAVE_MORFBEACON OFF)
-if(TARGET morfBeacon::morfBeacon)
-    set(MORFSENSOR_HAVE_MORFBEACON ON)
-else()
-    find_package(morfBeacon QUIET)
-    if(morfBeacon_FOUND)
-        set(MORFSENSOR_HAVE_MORFBEACON ON)
-    elseif(EXISTS "${MORFSENSOR_MORFBEACON_DIR}/CMakeLists.txt")
-        add_subdirectory("${MORFSENSOR_MORFBEACON_DIR}" "${CMAKE_CURRENT_BINARY_DIR}/morfBeacon")
-        set(MORFSENSOR_HAVE_MORFBEACON ON)
-    endif()
-endif()
-
-if(NOT MORFSENSOR_HAVE_MORFBEACON)
-    message(WARNING
-        "morfSensor : morfBeacon introuvable -> annonce LAN DESACTIVEE. "
-        "morfSensor compile quand meme (API HTTP seule). Pour activer l'annonce : "
-        "installer morfBeacon, ou definir -DMORFSENSOR_MORFBEACON_DIR=/chemin.")
-else()
-    message(STATUS "morfSensor : morfBeacon trouve -> annonce LAN activee.")
+# Ne pas editer le code sous third_party/ : la source de verite est le depot
+# morfBeacon. Resynchroniser avec scripts/sync-morf.(sh|ps1).
+if(NOT TARGET morfBeacon::morfBeacon)
+    add_subdirectory(third_party/morf/beacon)
 endif()
 
 # --- Bibliotheque ---------------------------------------------------------
@@ -100,16 +72,9 @@ target_include_directories(morfSensor PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
-target_link_libraries(morfSensor PUBLIC Qt6::Core Qt6::Network)
-
-# Annonce LAN morfBeacon : liee et activee seulement si morfBeacon est present.
-# La definition est PUBLIC car elle conditionne un en-tete public (SensorRegistry
-# implemente morfbeacon::IMetricsProvider uniquement quand morfBeacon existe) :
-# tous les consommateurs doivent voir la meme valeur.
-if(MORFSENSOR_HAVE_MORFBEACON)
-    target_link_libraries(morfSensor PRIVATE morfBeacon::morfBeacon)
-    target_compile_definitions(morfSensor PUBLIC MORFSENSOR_HAVE_MORFBEACON=1)
-endif()
+target_link_libraries(morfSensor
+    PUBLIC  Qt6::Core Qt6::Network
+    PRIVATE morfBeacon::morfBeacon)
 
 # Numero de version accessible depuis le code.
 target_compile_definitions(morfSensor PUBLIC MORFSENSOR_VERSION="${PROJECT_VERSION}")

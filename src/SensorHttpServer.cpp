@@ -172,6 +172,20 @@ QByteArray SensorHttpServer::buildStatusJson() const {
     o["uptime_s"] = static_cast<double>(m_uptime.isValid() ? m_uptime.elapsed() / 1000 : 0);
     o["ts"]       = static_cast<double>(QDateTime::currentSecsSinceEpoch());
     o["metrics"]  = m_registry ? m_registry->metrics() : QJsonObject{};
+
+    // Etat de l'annonce LAN, rapporte par morfSensor lui-meme (morfBeacon est
+    // embarque, il n'y a pas de service externe a interroger : le heartbeat vit
+    // DANS ce processus). Portable : un superviseur lit ce champ de la meme
+    // facon sous Linux et Windows.
+    //   enabled : l'annonce est-elle demandee dans la config ?
+    //   active  : est-elle reellement emise ? (= enabled ici)
+    QJsonObject beacon;
+    beacon["enabled"] = m_config.beaconEnabled;
+    beacon["active"]  = m_config.beaconEnabled;
+    if (m_config.beaconEnabled)
+        beacon["udp_port"] = static_cast<int>(m_config.beaconUdpPort);
+    o["beacon"] = beacon;
+
     return toJson(o);
 }
 

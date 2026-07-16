@@ -15,9 +15,11 @@ et du [versionnage sémantique](https://semver.org/lang/fr/).
   de rapport, lissage de présence, resynchronisation et reconnexion auto.
 - **Capteur simulé** (`MockSensor`) pour tester l'API sans matériel.
 - **Annonce LAN via morfBeacon** (heartbeat UDP) : découverte automatique par le
-  parc, `status_port` aligné sur le port HTTP réel. Dépendance **facultative** au
-  build : absente, une simple alerte est émise et morfSensor compile sans
-  l'annonce (API HTTP seule), permettant la compilation sur toute plateforme.
+  parc, `status_port` aligné sur le port HTTP réel. **morfBeacon est embarqué**
+  (vendoré dans `third_party/morf/beacon`, lié statiquement, comme ComponentHub /
+  SiteWatch) : build autonome, sans dépôt externe. Scripts `scripts/sync-morf.*`
+  pour resynchroniser depuis la source. `/status` expose l'état de l'annonce
+  (`beacon.active`), lisible à l'identique sous Linux et Windows.
 - **Démon `morfsensor`** (config JSON, `--config`, `--list-types`, repli sur un
   capteur simulé si aucune config).
 - **Service systemd** : `install-service.sh`, `update-service.sh`,

@@ -56,24 +56,22 @@ Exemple de lecture (générique, quel que soit le type) :
 
 ## Compiler
 
-Nécessite Qt 6 (Core, Network ; **SerialPort** pour les capteurs UART).
-**morfBeacon** est une dépendance de build **facultative** (pour l'annonce LAN).
+Nécessite seulement **Qt 6** (Core, Network ; **SerialPort** pour les capteurs
+UART). **morfBeacon est embarqué** (vendoré dans `third_party/morf/beacon`, lié
+statiquement) : le build ne dépend d'**aucun dépôt externe** — parfait et
+fonctionnel du premier coup, sous Windows, Linux x64 et Raspberry Pi (ARM64).
 
 ```sh
 cmake --preset mingw        # ou linux / linux-arm64
 cmake --build --preset mingw
 ```
 
-Les deux dépendances externes sont facultatives — une absence est une **alerte,
-jamais un échec de compilation** (pour pouvoir compiler/livrer la bibliothèque
-sur n'importe quelle plateforme) :
+> **Qt SerialPort** est la seule dépendance facultative : absente, le driver
+> LD2410C est désactivé (cœur + capteur `mock` compilent) — une alerte, jamais un
+> échec. Sur le Raspberry : `sudo apt install libqt6serialport6-dev`.
 
-> - **morfBeacon absent** → morfSensor compile sans l'annonce LAN (API HTTP
->   seule). Pour activer le heartbeat : l'installer, ou pointer
->   `-DMORFSENSOR_MORFBEACON_DIR=/chemin/vers/morfBeacon` (par défaut le voisin
->   `../morfBeacon_travail`).
-> - **Qt SerialPort absent** → le driver LD2410C est désactivé (cœur + capteur
->   `mock` compilent). Sur le Raspberry : `sudo apt install libqt6serialport6-dev`.
+Pour resynchroniser la copie vendorée de morfBeacon depuis son dépôt source :
+`scripts/sync-morf.sh` (ou `scripts\sync-morf.ps1` sous Windows).
 
 ## Lancer
 

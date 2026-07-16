@@ -9,14 +9,7 @@
 #include <QVector>
 #include <QJsonObject>
 #include <QJsonArray>
-
-// morfBeacon est FACULTATIF (voir CMakeLists.txt). Quand il est present, le
-// registre implemente son interface IMetricsProvider pour alimenter le heartbeat
-// et /status. Sinon, metrics()/state() restent de simples methodes (utilisees
-// par le serveur HTTP), et aucune dependance a morfBeacon n'est requise.
-#ifdef MORFSENSOR_HAVE_MORFBEACON
-#  include "morfbeacon/IMetricsProvider.h"
-#endif
+#include "morfbeacon/IMetricsProvider.h"
 
 namespace morfsensor {
 
@@ -36,11 +29,7 @@ struct SensorReading;
 // detecte quelqu'un (logique OU) : c'est ce que le dashboard interroge pour
 // reveiller l'ecran.
 // -----------------------------------------------------------------------------
-class SensorRegistry : public QObject
-#ifdef MORFSENSOR_HAVE_MORFBEACON
-                     , public morfbeacon::IMetricsProvider
-#endif
-{
+class SensorRegistry : public QObject, public morfbeacon::IMetricsProvider {
     Q_OBJECT
 public:
     explicit SensorRegistry(QObject* parent = nullptr);
@@ -63,11 +52,9 @@ public:
     // Vrai si au moins un capteur de presence detecte quelqu'un.
     bool anyPresence() const;
 
-    // Resume pour /status. Sert aussi de morfbeacon::IMetricsProvider quand
-    // morfBeacon est present (surcharge automatique ; pas de mot-cle 'override'
-    // pour rester valide quand la base est absente).
-    QJsonObject metrics() const;                     // resume pour /status
-    QString     state() const;                       // ok | warning | starting
+    // --- morfbeacon::IMetricsProvider ------------------------------------
+    QJsonObject metrics() const override;            // resume pour /status
+    QString     state() const override;              // ok | warning | starting
 
 signals:
     // Relaye toute mise a jour d'un capteur (utile pour du log ou une reaction).
