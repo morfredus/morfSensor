@@ -36,18 +36,18 @@ endif()
 
 # --- Bibliotheque ---------------------------------------------------------
 add_library(morfSensor STATIC
-    src/SensorRegistry.cpp
-    src/SensorHttpServer.cpp
-    src/SensorService.cpp
-    src/SensorFactory.cpp
+    src/ModuleRegistry.cpp
+    src/HttpServer.cpp
+    src/Service.cpp
+    src/ModuleFactory.cpp
     src/MockSensor.cpp
     include/morfsensor/SensorReading.h
     include/morfsensor/ISensor.h
-    include/morfsensor/SensorRegistry.h
-    include/morfsensor/SensorConfig.h
-    include/morfsensor/SensorFactory.h
-    include/morfsensor/SensorHttpServer.h
-    include/morfsensor/SensorService.h
+    include/morfsensor/ModuleRegistry.h
+    include/morfsensor/ServiceConfig.h
+    include/morfsensor/ModuleFactory.h
+    include/morfsensor/HttpServer.h
+    include/morfsensor/Service.h
     include/morfsensor/MockSensor.h
     include/morfsensor/Version.h
 )

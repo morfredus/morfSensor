@@ -21,8 +21,8 @@ HTTP ni les consommateurs : on écrit une classe et on l'enregistre.
 ```
     Capteur matériel                 morfSensor (service)              Consommateur
   ┌──────────────────┐            ┌───────────────────────┐         ┌──────────────┐
-  │ LD2410C (UART)   │──trames──▶ │ ISensor → SensorRegistry│─HTTP─▶ │ RaspberryDash│
-  │ (et autres…)     │            │ SensorHttpServer        │        │ (réveil écran)│
+  │ LD2410C (UART)   │──trames──▶ │ ISensor → ModuleRegistry│─HTTP─▶ │ RaspberryDash│
+  │ (et autres…)     │            │ HttpServer        │        │ (réveil écran)│
   └──────────────────┘            │ + heartbeat morfBeacon  │─UDP──▶ │ (découverte) │
                                   └───────────────────────┘         └──────────────┘
 ```

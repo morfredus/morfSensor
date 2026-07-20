@@ -41,7 +41,7 @@ struct SensorReading {
     }
 
     // Vrai si ce capteur est de type presence ET annonce une presence detectee.
-    // Utilise par l'agregation de /presence (voir SensorRegistry).
+    // Utilise par l'agregation de /presence (voir ModuleRegistry).
     bool indicatesPresence() const {
         return kind == QLatin1String("presence")
             && available

@@ -5,7 +5,7 @@ portable et sans dépendance superflue** : chaque ajout se pèse à cette aune.
 
 ## Nouveaux types de capteurs
 
-Le point d'extension `ISensor` + `SensorFactory` est prêt pour :
+Le point d'extension `ISensor` + `ModuleFactory` est prêt pour :
 
 - **Température / humidité** — sondes I²C (AHT20, BME280, DHT22…). `kind` =
   `temperature` / `humidity`, `values` = `{ "celsius": …, "percent": … }`.
@@ -14,7 +14,7 @@ Le point d'extension `ISensor` + `SensorFactory` est prêt pour :
   `{ "lux": … }`.
 - **Qualité d'air / CO₂** — SGP30, MH-Z19.
 
-Chaque ajout : une classe `ISensor`, une branche dans `SensorFactory::create`,
+Chaque ajout : une classe `ISensor`, une branche dans `ModuleFactory::create`,
 une ligne dans `knownTypes()`. Aucune autre modification.
 
 ## Service

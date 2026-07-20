@@ -25,7 +25,7 @@ Voir [`docs/fr/INTEGRATION.md`](docs/fr/INTEGRATION.md). En résumé :
 
 1. Créer `include/morfsensor/MonCapteur.h` + `src/MonCapteur.cpp`, héritant de
    `ISensor` (renseigner `kind`, remplir `values`, émettre `readingUpdated`).
-2. Ajouter une branche dans `SensorFactory::create` (lecture des paramètres) et
+2. Ajouter une branche dans `ModuleFactory::create` (lecture des paramètres) et
    son nom dans `knownTypes()`.
 3. L'ajouter aux sources dans `CMakeLists.txt` (sous une option si une nouvelle
    dépendance est nécessaire).

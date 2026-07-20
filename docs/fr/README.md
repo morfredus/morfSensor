@@ -10,7 +10,7 @@ locale et s'annonçant sur le LAN via morfBeacon.
 
 | Document | Contenu |
 |---|---|
-| [Architecture](ARCHITECTURE.md) | Les classes (`ISensor`, `SensorRegistry`, `SensorHttpServer`, `SensorService`) et le fil d'exécution. |
+| [Architecture](ARCHITECTURE.md) | Les classes (`ISensor`, `ModuleRegistry`, `HttpServer`, `Service`) et le fil d'exécution. |
 | [Protocole HTTP](PROTOCOL.md) | Les routes (`/presence`, `/sensors`, `/status`, `/healthz`) et le schéma JSON des lectures. |
 | [Intégration](INTEGRATION.md) | **Ajouter un type de capteur** ; brancher un consommateur (dashboard). |
 | [Câblage LD2410C](CABLAGE.md) | Raccordement du radar à l'UART du Raspberry Pi. |

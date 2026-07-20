@@ -3,6 +3,44 @@
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [Non publié]
+
+### Modifié
+
+- **Briques d'infrastructure alignées sur les noms du gabarit.** morfSensor
+  précède `morfTemplateService` : il a donné naissance au gabarit et en avait
+  gardé ses propres noms. Cette divergence empêchait toute comparaison
+  mécanique avec l'amont et compliquait la maintenance du squelette.
+
+  | Avant | Après |
+  | --- | --- |
+  | `SensorHttpServer` | `HttpServer` |
+  | `SensorService` | `Service` |
+  | `SensorConfig` | `ServiceConfig` |
+  | `SensorRegistry` | `ModuleRegistry` |
+  | `SensorFactory` | `ModuleFactory` |
+  | `SensorDef` | `ModuleDef` |
+
+  Les fichiers correspondants sont renommés à l'identique.
+
+- **Le métier n'est pas touché.** `ISensor`, `SensorReading`, `Ld2410Sensor` et
+  `MockSensor` gardent leurs noms : ce sont les points d'extension propres à
+  morfSensor, pas des briques d'infrastructure. `ISensor` n'est d'ailleurs pas
+  `IModule` — elle expose `kind()` et un `SensorReading` typé là où `IModule`
+  expose `type()` et un `statusJson()` générique. Les méthodes métier de
+  `ModuleRegistry` (`sensorsJson`, `presenceJson`, `anyPresence`) sont
+  conservées telles quelles.
+
+- **Aucun changement fonctionnel ni de contrat.** Le format du fichier de
+  configuration est inchangé (clés `sensors`, `http_port`, `beacon`…), l'API
+  HTTP est inchangée, et le binaire se comporte à l'identique. Le renommage
+  porte sur des identifiants C++ et les noms de fichiers, rien d'autre.
+
+  Cette harmonisation ne remet pas en cause le principe de l'écosystème :
+  `morfTemplateService` reste un **gabarit de création**, pas un framework
+  d'exécution. Chaque service demeure propriétaire de son implémentation et
+  libre de la faire évoluer. Seuls les noms convergent, pas le code.
+
 ## [0.1.1] – 2026-07-19
 
 ### Modifié
@@ -38,7 +76,7 @@ et du [versionnage sémantique](https://semver.org/lang/fr/).
 - **Service autonome de capteurs** avec API HTTP locale : routes `/presence`,
   `/sensors`, `/sensors/{id}`, `/status` (compatible morfBeacon) et `/healthz`.
 - **Point d'extension `ISensor`** (QObject asynchrone) et fabrique
-  `SensorFactory` : ajouter un type de capteur = une classe + une ligne.
+  `ModuleFactory` : ajouter un type de capteur = une classe + une ligne.
 - **Driver LD2410C** (`Ld2410Sensor`) sur `QSerialPort` : décodage des trames
   de rapport, lissage de présence, resynchronisation et reconnexion auto.
 - **Capteur simulé** (`MockSensor`) pour tester l'API sans matériel.

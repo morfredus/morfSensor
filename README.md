@@ -21,8 +21,8 @@ and register it.
 ```
     Hardware sensor                  morfSensor (service)              Consumer
   ┌──────────────────┐            ┌───────────────────────┐         ┌──────────────┐
-  │ LD2410C (UART)   │──frames──▶ │ ISensor → SensorRegistry│─HTTP─▶ │ RaspberryDash│
-  │ (and others…)    │            │ SensorHttpServer        │        │ (wake screen)│
+  │ LD2410C (UART)   │──frames──▶ │ ISensor → ModuleRegistry│─HTTP─▶ │ RaspberryDash│
+  │ (and others…)    │            │ HttpServer        │        │ (wake screen)│
   └──────────────────┘            │ + morfBeacon heartbeat  │─UDP──▶ │ (discovery)  │
                                   └───────────────────────┘         └──────────────┘
 ```

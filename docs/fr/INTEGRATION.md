@@ -69,7 +69,7 @@ void DemoTempSensor::tick() {
 } // namespace morfsensor
 ```
 
-### 3. L'enregistrer dans la fabrique (`src/SensorFactory.cpp`)
+### 3. L'enregistrer dans la fabrique (`src/ModuleFactory.cpp`)
 
 ```cpp
 #include "morfsensor/DemoTempSensor.h"

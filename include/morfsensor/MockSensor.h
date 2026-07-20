@@ -20,7 +20,7 @@ namespace morfsensor {
 //     (typiquement le poste Windows de developpement) ;
 //   - servir d'exemple minimal du pattern d'extension ISensor.
 //
-// Parametres (dans SensorDef::params) :
+// Parametres (dans ModuleDef::params) :
 //   "period_ms" : demi-periode du basculement present/absent (defaut 8000)
 // -----------------------------------------------------------------------------
 class MockSensor : public ISensor {

@@ -7,7 +7,7 @@ Until then, here are the existing guides (in French, under [`docs/fr/`](../fr/))
 
 | Document | What it covers |
 |---|---|
-| [Architecture](../fr/ARCHITECTURE.md) | The classes (`ISensor`, `SensorRegistry`, `SensorHttpServer`, `SensorService`) and threading. |
+| [Architecture](../fr/ARCHITECTURE.md) | The classes (`ISensor`, `ModuleRegistry`, `HttpServer`, `Service`) and threading. |
 | [HTTP protocol](../fr/PROTOCOL.md) | The routes (`/presence`, `/sensors`, `/status`, `/healthz`) and the reading JSON schema. |
 | [Integration](../fr/INTEGRATION.md) | Adding a sensor type; wiring a consumer (dashboard). |
 | [LD2410C wiring](../fr/CABLAGE.md) | Connecting the radar to the Raspberry Pi UART. |

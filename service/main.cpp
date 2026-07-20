@@ -18,11 +18,11 @@
 #include <QLoggingCategory>
 #include <QTextStream>
 
-#include <morfsensor/SensorService.h>
-#include <morfsensor/SensorFactory.h>
+#include <morfsensor/Service.h>
+#include <morfsensor/ModuleFactory.h>
 #include <morfsensor/Version.h>
 
-using morfsensor::SensorConfig;
+using morfsensor::ServiceConfig;
 
 namespace {
 
@@ -47,16 +47,16 @@ QString findDefaultConfig() {
 }
 
 // Config de repli : un capteur simule, prete a tester l'API sans materiel.
-SensorConfig fallbackConfig() {
-    SensorConfig c;
-    morfsensor::SensorDef mock;
+ServiceConfig fallbackConfig() {
+    ServiceConfig c;
+    morfsensor::ModuleDef mock;
     mock.type = QStringLiteral("mock");
     mock.id   = QStringLiteral("presence-sim");
     c.sensors.push_back(mock);
     return c;
 }
 
-bool loadConfig(const QString& path, SensorConfig* outCfg, QString* error) {
+bool loadConfig(const QString& path, ServiceConfig* outCfg, QString* error) {
     QFile f(path);
     if (!f.open(QIODevice::ReadOnly)) {
         *error = QStringLiteral("impossible d'ouvrir %1 : %2").arg(path, f.errorString());
@@ -68,7 +68,7 @@ bool loadConfig(const QString& path, SensorConfig* outCfg, QString* error) {
         *error = QStringLiteral("JSON invalide dans %1 : %2").arg(path, pe.errorString());
         return false;
     }
-    *outCfg = SensorConfig::fromJson(doc.object());
+    *outCfg = ServiceConfig::fromJson(doc.object());
     return true;
 }
 
@@ -95,12 +95,12 @@ int main(int argc, char** argv) {
 
     if (parser.isSet(listOpt)) {
         out() << "Types de capteurs disponibles : "
-              << morfsensor::SensorFactory::knownTypes().join(", ") << '\n';
+              << morfsensor::ModuleFactory::knownTypes().join(", ") << '\n';
         return 0;
     }
 
     // Determine la configuration : option explicite > recherche > repli mock.
-    SensorConfig config;
+    ServiceConfig config;
     QString configPath = parser.value(configOpt);
     if (configPath.isEmpty())
         configPath = findDefaultConfig();
@@ -118,7 +118,7 @@ int main(int argc, char** argv) {
         out() << "Configuration chargee : " << configPath << '\n';
     }
 
-    morfsensor::SensorService service(config);
+    morfsensor::Service service(config);
     for (const QString& w : service.warnings())
         err() << "Avertissement : " << w << '\n';
 

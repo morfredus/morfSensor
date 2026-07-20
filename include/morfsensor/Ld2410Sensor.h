@@ -21,7 +21,7 @@ namespace morfsensor {
 // Ce driver lit le port serie de facon asynchrone (QSerialPort), decode les
 // trames et met a jour l'instantane (`present`, distances, energie).
 //
-// Parametres (SensorDef::params) :
+// Parametres (ModuleDef::params) :
 //   "port"             : nom du port serie (REQUIS). Ex. "/dev/ttyAMA0",
 //                        "/dev/serial0" (Pi) ou "COM5" (Windows).
 //   "baud"             : debit (defaut 256000, valeur usine du LD2410C).

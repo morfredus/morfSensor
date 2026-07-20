@@ -20,7 +20,7 @@ namespace morfsensor {
 // et reagit au signal `readingUpdated`.
 //
 // Ajouter un nouveau type de capteur (temperature, humidite, distance, lumiere,
-// ...) = ecrire une sous-classe ici + l'enregistrer dans SensorFactory. Rien
+// ...) = ecrire une sous-classe ici + l'enregistrer dans ModuleFactory. Rien
 // d'autre a modifier dans le service ni dans le serveur HTTP.
 // -----------------------------------------------------------------------------
 class ISensor : public QObject {

@@ -15,24 +15,24 @@
 
 #include <QCoreApplication>
 
-#include <morfsensor/SensorService.h>
-#include <morfsensor/SensorConfig.h>
+#include <morfsensor/Service.h>
+#include <morfsensor/ServiceConfig.h>
 #include <morfsensor/Version.h>
 
 int main(int argc, char** argv) {
     QCoreApplication app(argc, argv);
 
-    morfsensor::SensorConfig cfg;
+    morfsensor::ServiceConfig cfg;
     cfg.httpPort         = 8788;
     cfg.beaconIntervalMs = 5000;   // annonce rapide pour une demo reactive
 
-    morfsensor::SensorDef mock;
+    morfsensor::ModuleDef mock;
     mock.type   = QStringLiteral("mock");
     mock.id     = QStringLiteral("presence-demo");
     mock.params = QJsonObject{ {"type", "mock"}, {"period_ms", 3000} };
     cfg.sensors.push_back(mock);
 
-    morfsensor::SensorService service(cfg);
+    morfsensor::Service service(cfg);
     if (!service.start()) {
         qWarning("API HTTP non demarree (port %u occupe ?)", cfg.httpPort);
         return 1;
