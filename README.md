@@ -90,9 +90,20 @@ configuration (HTTP port, morfBeacon announce, sensor list).
 ## Install as a service (Raspberry Pi)
 
 ```sh
-sudo ./scripts/linux/install-service.sh      # build, copy to /opt/morfsensor, enable systemd
-journalctl -u morfsensor -f
+# Any platform: Linux, Windows, Raspberry Pi
+sudo ./service.py install      # build if needed, install, start
+sudo ./service.py update       # rebuild, replace the binary, restart
+sudo ./service.py uninstall    # deregister, keeping your configuration
+./service.py status            # what the system says about it
 ```
+
+One entry point everywhere. What this service is — its name, its directory,
+its configurations — is declared in `service.json` beside it. The four install
+steps live once for the whole parc; only the service manager differs by
+platform.
+
+The former `scripts/linux/` and `scripts/windows/` scripts still work,
+unchanged.
 
 ## Documentation
 
