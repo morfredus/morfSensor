@@ -11,7 +11,7 @@
 **Autonomous sensor service — presence (LD2410C) and more — exposed over a local HTTP API and announced on the LAN (morfBeacon).**
 
 morfSensor keeps the hardware (presence radar, weather probes, distance, light…)
-in a **separate service**, so an application (such as RaspberryDashboard) only
+in a **separate service**, so an application (such as morfDashboard) only
 has to **query an HTTP API** instead of driving the sensor itself. Adding a new
 sensor type touches neither the HTTP server nor the consumers: you write a class
 and register it.

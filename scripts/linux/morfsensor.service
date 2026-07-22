@@ -5,7 +5,7 @@
 # synchro Syncthing) ne casse pas le service. install-service.sh remplace
 # __RUN_USER__ et __APP_DIR__.
 #
-# Nom d'unite : « morfsensor ». Un superviseur (RaspberryDashboard) peut le
+# Nom d'unite : « morfsensor ». Un superviseur (morfDashboard) peut le
 # surveiller par ce nom (systemctl is-active morfsensor) en plus d'interroger
 # son API HTTP.
 

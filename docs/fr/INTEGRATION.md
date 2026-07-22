@@ -112,11 +112,11 @@ def presence_detected(url="http://127.0.0.1:8788/presence", timeout=0.5):
         return False        # service absent -> on ignore, jamais d'exception
 ```
 
-### Cas réel : RaspberryDashboard
+### Cas réel : morfDashboard
 
 Le dashboard interroge `/presence` à chaque tour de boucle : une présence
 détectée compte comme une activité et **réveille l'écran, en plus de l'activité
-SSH**. Voir, dans le dépôt RaspberryDashboard :
+SSH**. Voir, dans le dépôt morfDashboard :
 
 - `config.py` — `PRESENCE_SENSOR_ENABLED`, `PRESENCE_SENSOR_URL`,
   `PRESENCE_SENSOR_TIMEOUT` ;

@@ -12,7 +12,7 @@
 
 morfSensor gère le matériel (radar de présence, sondes météo, distance,
 lumière…) dans un **service séparé**, pour qu'une application (comme
-RaspberryDashboard) n'ait qu'à **interroger une API HTTP** au lieu de piloter le
+morfDashboard) n'ait qu'à **interroger une API HTTP** au lieu de piloter le
 capteur elle-même. Ajouter un nouveau type de capteur ne touche ni le serveur
 HTTP ni les consommateurs : on écrit une classe et on l'enregistre.
 
