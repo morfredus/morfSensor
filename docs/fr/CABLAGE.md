@@ -84,7 +84,7 @@ Dans `morfsensor.json` :
 ## Droits d'accès
 
 L'utilisateur du service doit appartenir au groupe **`dialout`** pour lire le
-port série. `install-service.sh` l'ajoute automatiquement et le service systemd
+port série. `service.py install` l'ajoute automatiquement et le service systemd
 inclut `SupplementaryGroups=dialout`.
 
 ## Dépannage
