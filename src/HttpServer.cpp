@@ -6,6 +6,7 @@
 
 #include "morfsensor/HttpServer.h"
 #include "morfsensor/ModuleRegistry.h"
+#include "morfsensor/SelfDescription.h"
 #include "morfsensor/Version.h"
 
 #include <QTcpServer>
@@ -185,6 +186,14 @@ QByteArray HttpServer::buildStatusJson() const {
     if (m_config.beaconEnabled)
         beacon["udp_port"] = static_cast<int>(m_config.beaconUdpPort);
     o["beacon"] = beacon;
+
+    // Detail annonce (API) depuis le point UNIQUE, la meme source que les autres
+    // services. Sans interface web, describeService n'emet que le bloc `api`.
+    morfbeacon::PresenceConfig self;
+    fillAnnouncedDetail(self);
+    const QJsonObject detail = morfbeacon::describeService(self, port());
+    for (auto it = detail.constBegin(); it != detail.constEnd(); ++it)
+        o[it.key()] = it.value();
 
     return toJson(o);
 }
