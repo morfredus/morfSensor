@@ -1,4 +1,4 @@
-# Protocole HTTP — morfSensor
+# Protocole HTTP - morfSensor
 
 Retour à l'[index de la documentation](README.md).
 
@@ -27,8 +27,8 @@ OU).
 }
 ```
 
-- `present` — **le booléen à lire** : vrai dès qu'au moins un capteur détecte.
-- `sources` — détail par capteur de présence (facultatif à exploiter).
+- `present` - **le booléen à lire** : vrai dès qu'au moins un capteur détecte.
+- `sources` - détail par capteur de présence (facultatif à exploiter).
 
 ## `GET /sensors`
 
@@ -84,7 +84,7 @@ Commun à tous les capteurs ; seul `values` change selon le `kind`.
 - **presence** (LD2410C) : `present` (bool), `target_state`/`target_label`,
   `moving_cm`, `moving_energy`, `static_cm`, `static_energy`, `detect_cm`.
 - **presence** (mock) : `present`, `simulated: true`.
-- *À venir* — temperature : `celsius` ; humidity : `percent` ; distance : `cm` ;
+- *À venir* - temperature : `celsius` ; humidity : `percent` ; distance : `cm` ;
   light : `lux`.
 
 ## `GET /status`

@@ -1,4 +1,4 @@
-# Intégration — morfSensor
+# Intégration - morfSensor
 
 Retour à l'[index de la documentation](README.md).
 
@@ -118,10 +118,10 @@ Le dashboard interroge `/presence` à chaque tour de boucle : une présence
 détectée compte comme une activité et **réveille l'écran, en plus de l'activité
 SSH**. Voir, dans le dépôt morfDashboard :
 
-- `config.py` — `PRESENCE_SENSOR_ENABLED`, `PRESENCE_SENSOR_URL`,
+- `config.py` - `PRESENCE_SENSOR_ENABLED`, `PRESENCE_SENSOR_URL`,
   `PRESENCE_SENSOR_TIMEOUT` ;
-- `presence_sensor.py` — la fonction `presence_detected()` ci-dessus ;
-- `dashboard.py` — `if PRESENCE_SENSOR_ENABLED and presence_detected():
+- `presence_sensor.py` - la fonction `presence_detected()` ci-dessus ;
+- `dashboard.py` - `if PRESENCE_SENSOR_ENABLED and presence_detected():
   last_active = time.time()`.
 
 Comme morfSensor s'annonce aussi via morfBeacon, l'outil `beacon_status.py` du

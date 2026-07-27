@@ -1,4 +1,4 @@
-# Câblage du LD2410C — Raspberry Pi
+# Câblage du LD2410C - Raspberry Pi
 
 Retour à l'[index de la documentation](README.md).
 
@@ -11,7 +11,7 @@ configure pas le module (réglages d'usine suffisants pour la détection).
 ## Raccordement
 
 Le LD2410C expose 5 broches : `VCC`, `GND`, `TX`, `RX`, `OUT` (sortie tout-ou-rien,
-non utilisée ici — morfSensor lit l'UART, plus riche).
+non utilisée ici - morfSensor lit l'UART, plus riche).
 
 | LD2410C | Broche Pi (BCM) | Broche physique | Remarque |
 |---|---|---|---|
@@ -76,9 +76,9 @@ Dans `morfsensor.json` :
 }
 ```
 
-- `presence_hold_ms` — maintient `present=true` un court instant après la
+- `presence_hold_ms` - maintient `present=true` un court instant après la
   dernière détection (lisse le clignotement en limite de portée). `0` = brut.
-- `stale_ms` — sans trame valide pendant ce délai, le capteur passe
+- `stale_ms` - sans trame valide pendant ce délai, le capteur passe
   `available=false` (câble coupé, capteur muet).
 
 ## Droits d'accès

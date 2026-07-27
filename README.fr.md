@@ -8,7 +8,7 @@
 ![Build](https://img.shields.io/badge/CMake-3.21+-064F8C?logo=cmake)
 ![License](https://img.shields.io/badge/License-GPL--3.0--only-blue)
 
-**Service autonome de capteurs — présence (LD2410C) et bien d'autres — exposé via une API HTTP locale et annoncé sur le LAN (morfBeacon).**
+**Service autonome de capteurs - présence (LD2410C) et bien d'autres - exposé via une API HTTP locale et annoncé sur le LAN (morfBeacon).**
 
 morfSensor gère le matériel (radar de présence, sondes météo, distance,
 lumière…) dans un **service séparé**, pour qu'une application (comme
@@ -39,7 +39,7 @@ HTTP ni les consommateurs : on écrit une classe et on l'enregistre.
 
 | Route | Réponse |
 |---|---|
-| `GET /presence` | `{ "present": bool, "sources": [...], "ts": ... }` — **interrogé par le dashboard** |
+| `GET /presence` | `{ "present": bool, "sources": [...], "ts": ... }` - **interrogé par le dashboard** |
 | `GET /sensors` | `{ "sensors": [...], "count": N, "ts": ... }` |
 | `GET /sensors/{id}` | lecture d'un capteur (404 si inconnu) |
 | `GET /status` | compatible morfBeacon (app, host, version, state, uptime_s, metrics, ts) |
@@ -58,7 +58,7 @@ Exemple de lecture (générique, quel que soit le type) :
 
 Nécessite seulement **Qt 6** (Core, Network ; **SerialPort** pour les capteurs
 UART). **morfBeacon est embarqué** (vendoré dans `third_party/morf/beacon`, lié
-statiquement) : le build ne dépend d'**aucun dépôt externe** — parfait et
+statiquement) : le build ne dépend d'**aucun dépôt externe** - parfait et
 fonctionnel du premier coup, sous Windows, Linux x64 et Raspberry Pi (ARM64).
 
 ```sh
@@ -67,7 +67,7 @@ cmake --build --preset mingw
 ```
 
 > **Qt SerialPort** est la seule dépendance facultative : absente, le driver
-> LD2410C est désactivé (cœur + capteur `mock` compilent) — une alerte, jamais un
+> LD2410C est désactivé (cœur + capteur `mock` compilent) - une alerte, jamais un
 > échec. Sur le Raspberry : `sudo apt install libqt6serialport6-dev`.
 
 Pour resynchroniser la copie vendorée de morfBeacon depuis son dépôt source :
@@ -97,8 +97,8 @@ sudo ./service.py uninstall    # desinscrit, en conservant votre configuration
 ./service.py status            # ce que le systeme en dit
 ```
 
-Un seul point d'entree partout. Ce qu'est ce service — son nom, son dossier,
-ses configurations — est declare dans `service.json` a cote. Les quatre etapes
+Un seul point d'entree partout. Ce qu'est ce service - son nom, son dossier,
+ses configurations - est declare dans `service.json` a cote. Les quatre etapes
 d'installation vivent une seule fois pour tout le parc ; seul le gestionnaire
 de services change selon la plateforme.
 
@@ -107,12 +107,12 @@ toujours, inchanges.
 
 ## Documentation
 
-- [Architecture](docs/fr/ARCHITECTURE.md) — les classes et le fil d'exécution.
-- [Protocole HTTP](docs/fr/PROTOCOL.md) — routes et schéma JSON des lectures.
-- [Intégration](docs/fr/INTEGRATION.md) — **ajouter un type de capteur** ;
+- [Architecture](docs/fr/ARCHITECTURE.md) - les classes et le fil d'exécution.
+- [Protocole HTTP](docs/fr/PROTOCOL.md) - routes et schéma JSON des lectures.
+- [Intégration](docs/fr/INTEGRATION.md) - **ajouter un type de capteur** ;
   brancher un consommateur.
-- [Câblage LD2410C](docs/fr/CABLAGE.md) — raccordement à l'UART du Pi.
+- [Câblage LD2410C](docs/fr/CABLAGE.md) - raccordement à l'UART du Pi.
 
 ## Licence
 
-GPL-3.0-only — © 2026 morfredus (Frédéric Biron).
+GPL-3.0-only - © 2026 morfredus (Frédéric Biron).

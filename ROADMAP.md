@@ -1,4 +1,4 @@
-# Roadmap — morfSensor
+# Roadmap - morfSensor
 
 Pistes envisagées, sans engagement de date. morfSensor doit rester **petit,
 portable et sans dépendance superflue** : chaque ajout se pèse à cette aune.
@@ -7,12 +7,12 @@ portable et sans dépendance superflue** : chaque ajout se pèse à cette aune.
 
 Le point d'extension `ISensor` + `ModuleFactory` est prêt pour :
 
-- **Température / humidité** — sondes I²C (AHT20, BME280, DHT22…). `kind` =
+- **Température / humidité** - sondes I²C (AHT20, BME280, DHT22…). `kind` =
   `temperature` / `humidity`, `values` = `{ "celsius": …, "percent": … }`.
-- **Distance** — capteurs ToF/ultrason (VL53L0X, HC-SR04). `kind` = `distance`.
-- **Lumière** — luxmètres (BH1750, TSL2591). `kind` = `light`, `values` =
+- **Distance** - capteurs ToF/ultrason (VL53L0X, HC-SR04). `kind` = `distance`.
+- **Lumière** - luxmètres (BH1750, TSL2591). `kind` = `light`, `values` =
   `{ "lux": … }`.
-- **Qualité d'air / CO₂** — SGP30, MH-Z19.
+- **Qualité d'air / CO₂** - SGP30, MH-Z19.
 
 Chaque ajout : une classe `ISensor`, une branche dans `ModuleFactory::create`,
 une ligne dans `knownTypes()`. Aucune autre modification.

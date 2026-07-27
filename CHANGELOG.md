@@ -1,25 +1,25 @@
-# Journal des versions — morfSensor
+# Journal des versions - morfSensor
 
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
-## [0.2.2] – 2026-07-26
+## [0.2.2] - 2026-07-26
 ### Ajouté
 
 - **Déclaration de l'API dans `/status`.** Le service annonce désormais ses
   routes métier (`GET /presence`, `GET /sensors`, `GET /sensors/{id}`) via le
-  point unique `fillAnnouncedDetail` + `morfbeacon::describeService` — la même
+  point unique `fillAnnouncedDetail` + `morfbeacon::describeService` - la même
   source que morfAnalytics et morfMonitor. Étant sans interface web, il n'émet
   que le bloc `api`, jamais de `web_ui`. Un superviseur du parc peut ainsi
   cartographier son API sans la connaître à l'avance. Le heartbeat reste
   inchangé (il annonce des capacités, pas l'API).
 
-## [0.2.1] – 2026-07-22
+## [0.2.1] - 2026-07-22
 ### Modifié
 
-- **Installation, mise à jour et désinstallation par `./service.py`** — point
+- **Installation, mise à jour et désinstallation par `./service.py`** - point
   d'entrée unique multiplateforme (morfdeploy), en remplacement des scripts
   `install-service.sh`/`.ps1`. Le binaire de ce service est inchangé ; seul son
   mode de déploiement évolue.
@@ -29,7 +29,7 @@ et du [versionnage sémantique](https://semver.org/lang/fr/).
 - **Enrichissement à la mise à jour** : une clé introduite par une nouvelle
   version est ajoutée avec sa valeur par défaut, sans jamais toucher vos réglages.
 
-## [0.2.0] – 2026-07-21
+## [0.2.0] - 2026-07-21
 
 ### Modifié
 
@@ -52,7 +52,7 @@ et du [versionnage sémantique](https://semver.org/lang/fr/).
 - **Le métier n'est pas touché.** `ISensor`, `SensorReading`, `Ld2410Sensor` et
   `MockSensor` gardent leurs noms : ce sont les points d'extension propres à
   morfSensor, pas des briques d'infrastructure. `ISensor` n'est d'ailleurs pas
-  `IModule` — elle expose `kind()` et un `SensorReading` typé là où `IModule`
+  `IModule` - elle expose `kind()` et un `SensorReading` typé là où `IModule`
   expose `type()` et un `statusJson()` générique. Les méthodes métier de
   `ModuleRegistry` (`sensorsJson`, `presenceJson`, `anyPresence`) sont
   conservées telles quelles.
@@ -67,7 +67,7 @@ et du [versionnage sémantique](https://semver.org/lang/fr/).
   d'exécution. Chaque service demeure propriétaire de son implémentation et
   libre de la faire évoluer. Seuls les noms convergent, pas le code.
 
-## [0.1.1] – 2026-07-19
+## [0.1.1] - 2026-07-19
 
 ### Modifié
 
@@ -95,7 +95,7 @@ et du [versionnage sémantique](https://semver.org/lang/fr/).
   `.service` dans le dépôt ne parvenait jamais à `/etc/systemd/system` : le
   service continuait de tourner avec l'ancienne définition.
 
-## [0.1.0] — 2026-07-16
+## [0.1.0] - 2026-07-16
 
 ### Ajouté
 

@@ -8,7 +8,7 @@
 ![Build](https://img.shields.io/badge/CMake-3.21+-064F8C?logo=cmake)
 ![License](https://img.shields.io/badge/License-GPL--3.0--only-blue)
 
-**Autonomous sensor service — presence (LD2410C) and more — exposed over a local HTTP API and announced on the LAN (morfBeacon).**
+**Autonomous sensor service - presence (LD2410C) and more - exposed over a local HTTP API and announced on the LAN (morfBeacon).**
 
 morfSensor keeps the hardware (presence radar, weather probes, distance, light…)
 in a **separate service**, so an application (such as morfDashboard) only
@@ -39,7 +39,7 @@ and register it.
 
 | Route | Response |
 |---|---|
-| `GET /presence` | `{ "present": bool, "sources": [...], "ts": ... }` — **polled by the dashboard** |
+| `GET /presence` | `{ "present": bool, "sources": [...], "ts": ... }` - **polled by the dashboard** |
 | `GET /sensors` | `{ "sensors": [...], "count": N, "ts": ... }` |
 | `GET /sensors/{id}` | one sensor's reading (404 if unknown) |
 | `GET /status` | morfBeacon-compatible (app, host, version, state, uptime_s, metrics, ts) |
@@ -58,7 +58,7 @@ Reading example (generic, whatever the type):
 
 Only needs **Qt 6** (Core, Network; **SerialPort** for UART sensors). **morfBeacon
 is bundled** (vendored under `third_party/morf/beacon`, statically linked), so the
-build depends on **no external repository** — it works first try on Windows, Linux
+build depends on **no external repository** - it works first try on Windows, Linux
 x64 and Raspberry Pi (ARM64).
 
 ```sh
@@ -67,7 +67,7 @@ cmake --build --preset mingw
 ```
 
 > **Qt SerialPort** is the only optional dependency: if absent, the LD2410C driver
-> is disabled (core + `mock` sensor still build) — a warning, never a build
+> is disabled (core + `mock` sensor still build) - a warning, never a build
 > failure. On the Raspberry Pi: `sudo apt install libqt6serialport6-dev`.
 
 To refresh the vendored morfBeacon from its source repo: `scripts/sync-morf.sh`
@@ -97,8 +97,8 @@ sudo ./service.py uninstall    # deregister, keeping your configuration
 ./service.py status            # what the system says about it
 ```
 
-One entry point everywhere. What this service is — its name, its directory,
-its configurations — is declared in `service.json` beside it. The four install
+One entry point everywhere. What this service is - its name, its directory,
+its configurations - is declared in `service.json` beside it. The four install
 steps live once for the whole parc; only the service manager differs by
 platform.
 
@@ -112,4 +112,4 @@ protocol, **adding a sensor type**, LD2410C wiring.
 
 ## License
 
-GPL-3.0-only — © 2026 morfredus (Frédéric Biron).
+GPL-3.0-only - © 2026 morfredus (Frédéric Biron).

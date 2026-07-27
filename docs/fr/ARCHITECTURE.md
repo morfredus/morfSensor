@@ -1,4 +1,4 @@
-# Architecture — morfSensor
+# Architecture - morfSensor
 
 Retour à l'[index de la documentation](README.md).
 
@@ -54,7 +54,7 @@ Fabrique un `ISensor` à partir d'un `ModuleDef`. C'est le point d'extension
 ### `ModuleRegistry` (QObject + `morfbeacon::IMetricsProvider`)
 
 Détient les capteurs, produit les vues JSON (`sensorsJson`, `presenceJson`) et
-la **présence globale** (vrai dès qu'un capteur `presence` détecte — logique OU).
+la **présence globale** (vrai dès qu'un capteur `presence` détecte - logique OU).
 Comme il implémente `IMetricsProvider`, le heartbeat et `/status` exposent
 automatiquement un résumé.
 
