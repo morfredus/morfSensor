@@ -1,5 +1,5 @@
 {
-  "_comment": "Configuration morfSensor. Copier en 'morfsensor.json' et adapter. Le service lit ce fichier via --config, ou le cherche dans le dossier courant, a cote du binaire, ou dans /etc/morfsensor/.",
+  "_comment": "Configuration morfSensor. Copier en 'morfsensor.json' et adapter. Le service lit ce fichier via --config, ou le cherche dans le dossier courant, a cote du binaire, ou dans /etc/morfsystem/morfsensor/.",
 
   "app_name": "morfSensor",
   "http_port": 8788,
