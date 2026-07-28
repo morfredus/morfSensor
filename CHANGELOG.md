@@ -3,6 +3,15 @@
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [0.3.1] - 2026-07-28
+
+### Documentation
+
+- **Renvoi vers la vue consolidée écran + capteur** dans `docs/fr/CABLAGE.md` :
+  sur un Pi qui porte aussi l'écran du dashboard (bus SPI), le capteur (UART) et
+  l'écran cohabitent sans conflit de broches ; brochage d'ensemble dans
+  `morfDashboard/docs/fr/CABLAGE.md`.
+
 ## [0.3.0] - 2026-07-28
 
 ### Modifié

@@ -23,6 +23,10 @@ non utilisée ici - morfSensor lit l'UART, plus riche).
 > ⚠️ Les E/S du LD2410C sont en 3,3 V : relier `TX`/`RX` directement aux GPIO du
 > Pi (3,3 V), **pas** via un niveau 5 V. Alimenter en 5 V, signaux en 3,3 V.
 
+> ℹ️ Sur un Pi qui porte aussi l'écran du dashboard (bus SPI), les deux
+> périphériques cohabitent sans conflit de broches. Vue consolidée écran + capteur
+> sur le même en-tête 40 broches : `morfDashboard/docs/fr/CABLAGE.md`.
+
 ## Activer l'UART matériel du Pi
 
 Par défaut, l'UART performant (PL011) est mobilisé par le Bluetooth sur les
