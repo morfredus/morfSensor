@@ -7,6 +7,7 @@
 #pragma once
 #include <QObject>
 #include <QVector>
+#include <QHash>
 #include <QJsonObject>
 #include <QJsonArray>
 #include "morfbeacon/IMetricsProvider.h"
@@ -36,7 +37,10 @@ public:
     ~ModuleRegistry() override;
 
     // Ajoute un capteur (le registre en prend possession). A appeler avant start().
-    void add(ISensor* sensor);
+    // `required` (défaut true) dit si CE matériel est attendu sur cette machine :
+    // un capteur requis mais indisponible dégrade le service ; un capteur optionnel
+    // absent est une configuration valide (ex. machine sans capteur branché).
+    void add(ISensor* sensor, bool required = true);
 
     // Demarre / arrete tous les capteurs.
     void startAll();
@@ -55,6 +59,9 @@ public:
     // --- morfbeacon::IMetricsProvider ------------------------------------
     QJsonObject metrics() const override;            // resume pour /status
     QString     state() const override;              // ok | warning | starting
+    // Etat matériel synthétique (voir IMetricsProvider::hardware) : distingue
+    // « aucun capteur attendu » (none, ok) de « capteur attendu absent » (degraded).
+    QJsonObject hardware() const override;
 
 signals:
     // Relaye toute mise a jour d'un capteur (utile pour du log ou une reaction).
@@ -62,6 +69,8 @@ signals:
 
 private:
     QVector<ISensor*> m_sensors;
+    // Attendu ou non, par capteur. Un capteur absent de la table est traité requis.
+    QHash<const ISensor*, bool> m_required;
 };
 
 } // namespace morfsensor

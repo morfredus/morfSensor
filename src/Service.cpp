@@ -33,7 +33,10 @@ Service::Service(ServiceConfig config, QObject* parent)
             m_warnings << error;
             continue;
         }
-        m_registry->add(sensor);
+        // `required` (défaut true) : un capteur optionnel absent ne dégrade pas le
+        // service (machine sans matériel branché = configuration valide).
+        const bool required = def.params.value(QStringLiteral("required")).toBool(true);
+        m_registry->add(sensor, required);
     }
 
     m_http = new HttpServer(m_config, m_registry, this);

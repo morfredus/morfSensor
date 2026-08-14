@@ -3,6 +3,32 @@
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [0.4.1] - 2026-08-14
+
+### Corrigé
+
+- Description de l'unité systemd : remplacement du tiret cadratin par un tiret
+  simple, conformément à la règle de ponctuation du parc.
+
+## [0.4.0] - 2026-08-13
+
+### Ajouté
+
+- **État matériel dans `/status`** (bloc `hardware`, contrat morfBeacon) : morfSensor
+  distingue désormais « aucun capteur attendu » (`state: none`, service `ok`) de
+  « capteur attendu absent/défaillant » (`state: degraded`, service `warning`), avec
+  un libellé lisible (« aucun capteur », « capteur présent », « capteur absent »).
+  Le service reste seul juge de son matériel ; morfMonitor l'affiche sans inférer.
+- **Drapeau `required` par capteur** (config, défaut `true`) : un capteur optionnel
+  absent devient une configuration valide. Une machine sans capteur branché (ex. Pi
+  de dev) se déclare `required: false` et n'émet plus de `warning`.
+
+### Modifié
+
+- `ModuleRegistry::state()` découle maintenant de l'état matériel : seul `degraded`
+  produit un `warning` (un service sans capteur reste `ok`).
+- Rafraîchissement des dépendances vendorées (morfBeacon 0.6.0, morfdeploy).
+
 ## [0.3.1] - 2026-07-28
 
 ### Documentation

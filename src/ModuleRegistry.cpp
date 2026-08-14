@@ -14,11 +14,12 @@ namespace morfsensor {
 ModuleRegistry::ModuleRegistry(QObject* parent) : QObject(parent) {}
 ModuleRegistry::~ModuleRegistry() = default;
 
-void ModuleRegistry::add(ISensor* sensor) {
+void ModuleRegistry::add(ISensor* sensor, bool required) {
     if (!sensor)
         return;
     sensor->setParent(this);
     m_sensors.push_back(sensor);
+    m_required.insert(sensor, required);
     connect(sensor, &ISensor::readingUpdated,
             this, &ModuleRegistry::readingUpdated);
 }
@@ -105,13 +106,57 @@ QJsonObject ModuleRegistry::metrics() const {
 }
 
 QString ModuleRegistry::state() const {
-    if (m_sensors.isEmpty())
-        return QStringLiteral("starting");
-    // "warning" si un capteur declare mais indisponible (ex. LD2410 debranche).
-    for (const ISensor* s : m_sensors)
-        if (!s->lastReading().available)
-            return QStringLiteral("warning");
-    return QStringLiteral("ok");
+    // L'état service DÉCOULE de l'état matériel : seul un matériel ATTENDU mais
+    // absent/défaillant (degraded) dégrade le service. Aucun capteur attendu ici
+    // (none) reste « ok » : une machine sans capteur branché est une configuration
+    // valide, pas une panne. C'est le principe « état service ≠ état matériel ».
+    return hardware().value(QStringLiteral("state")).toString() == QLatin1String("degraded")
+        ? QStringLiteral("warning")
+        : QStringLiteral("ok");
+}
+
+QJsonObject ModuleRegistry::hardware() const {
+    // Le service est SEUL juge de son matériel (morfMonitor n'infère rien). On
+    // compte les capteurs attendus (required) et ceux effectivement disponibles,
+    // puis on classe : present / none / degraded.
+    int expected = 0;         // capteurs déclarés comme attendus (required)
+    int present = 0;          // capteurs répondant réellement (available)
+    int requiredMissing = 0;  // capteurs attendus mais absents/défaillants
+    for (const ISensor* s : m_sensors) {
+        const bool available = s->lastReading().available;
+        const bool required  = m_required.value(s, true);
+        if (available)
+            ++present;
+        if (required) {
+            ++expected;
+            if (!available)
+                ++requiredMissing;
+        }
+    }
+
+    QString state;
+    QString label;
+    if (requiredMissing > 0) {
+        state = QStringLiteral("degraded");
+        label = (present > 0)
+            ? QStringLiteral("capteur attendu absent (%1/%2)").arg(present).arg(expected)
+            : QStringLiteral("capteur absent");
+    } else if (present > 0) {
+        state = QStringLiteral("present");
+        label = (present == 1)
+            ? QStringLiteral("capteur présent")
+            : QStringLiteral("%1 capteurs présents").arg(present);
+    } else {
+        state = QStringLiteral("none");
+        label = QStringLiteral("aucun capteur");
+    }
+
+    QJsonObject o;
+    o["state"]    = state;
+    o["expected"] = expected;
+    o["present"]  = present;
+    o["label"]    = label;
+    return o;
 }
 
 } // namespace morfsensor

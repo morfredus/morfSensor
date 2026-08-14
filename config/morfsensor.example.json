@@ -14,11 +14,14 @@
 
   "_test_sans_materiel": "Pour tester sans capteur, remplacer le tableau 'sensors' ci-dessous par : [ { \"type\": \"mock\", \"id\": \"presence-sim\", \"period_ms\": 8000 } ]. NE PAS laisser un 'mock' a cote d'un vrai capteur : /presence fait un OU, le mock basculerait 'present' tout seul et reveillerait l'ecran en permanence.",
 
+  "_comment_required": "Chaque capteur porte un drapeau 'required' (defaut true). true = ce materiel est ATTENDU sur cette machine : s'il est absent/defaillant, /status passe hardware.state='degraded' et l'etat service 'warning'. false = capteur optionnel : son absence est une configuration VALIDE (hardware.state='none', service 'ok'). Sur une machine sans capteur branche (ex. Pi de dev), mettre 'required': false pour que morfMonitor affiche 'aucun capteur' sans alerte, plutot que de retirer le capteur de la liste.",
+
   "sensors": [
     {
       "_comment": "Radar HLK-LD2410C sur l'UART du Raspberry Pi. Utiliser /dev/serial0 (alias qui vise toujours l'UART GPIO primaire) plutot que /dev/ttyAMA0 ou /dev/ttyS0, qui varient selon la config Bluetooth. Sous Windows : COMx.",
       "type": "ld2410",
       "id": "presence-salon",
+      "required": true,
       "port": "/dev/serial0",
       "baud": 256000,
       "presence_hold_ms": 2000,

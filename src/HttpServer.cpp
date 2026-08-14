@@ -174,6 +174,12 @@ QByteArray HttpServer::buildStatusJson() const {
     o["ts"]       = static_cast<double>(QDateTime::currentSecsSinceEpoch());
     o["metrics"]  = m_registry ? m_registry->metrics() : QJsonObject{};
 
+    // Etat du MATERIEL (contrat morfBeacon) : distingue « aucun capteur attendu »
+    // (none, ok) de « capteur attendu absent » (degraded). morfMonitor l'affiche
+    // sans jamais deduire la presence lui-meme.
+    if (m_registry)
+        o["hardware"] = m_registry->hardware();
+
     // Etat de l'annonce LAN, rapporte par morfSensor lui-meme (morfBeacon est
     // embarque, il n'y a pas de service externe a interroger : le heartbeat vit
     // DANS ce processus). Portable : un superviseur lit ce champ de la meme

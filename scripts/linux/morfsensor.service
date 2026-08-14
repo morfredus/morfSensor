@@ -10,7 +10,7 @@
 # son API HTTP.
 
 [Unit]
-Description=morfSensor — service de capteurs (LD2410C et autres)
+Description=morfSensor - service de capteurs (LD2410C et autres)
 After=local-fs.target network-online.target
 Wants=network-online.target
 
