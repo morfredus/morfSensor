@@ -25,5 +25,15 @@
   "config_dir": {
     "linux": "/etc/morfsystem/morfsensor",
     "windows": "%ProgramData%/morfsystem/morfsensor"
-  }
+  },
+  "_comment_system_dependencies": "Dependances systeme declarees comme BESOINS (morfDeploy resout le paquet selon la plateforme). Qt SerialPort est OPTIONNELLE : sans elle, morfSensor compile et tourne (coeur + capteurs simules), seul le driver radar LD2410C est desactive (le CMakeLists le detecte). Sur une machine devant piloter un vrai LD2410C, installer le paquet AVANT le build ; morfDeploy le proposera lors de deploy/install.",
+  "system_dependencies": [
+    {
+      "id": "qt-serialport",
+      "label": "Qt SerialPort",
+      "required_for": ["ld2410c"],
+      "packages": { "debian": ["libqt6serialport6-dev"] },
+      "required": false
+    }
+  ]
 }

@@ -3,6 +3,17 @@
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [0.4.3] - 2026-08-18
+
+### Ajouté
+
+- **Déclaration de dépendance système** dans `service.json` : `qt-serialport`
+  (paquet Debian `libqt6serialport6-dev`), **optionnelle**, `required_for` le
+  driver radar `ld2410c`. morfDeploy 0.7.0 la détecte et propose de l'installer
+  lors de `deploy`/`install` sur une machine devant piloter le capteur ; son
+  absence n'empêche rien (cœur + capteurs simulés). Formalise le besoin repéré au
+  build Linux. Aucun changement de code du service.
+
 ## [0.4.2] - 2026-08-14
 
 ### Corrigé
