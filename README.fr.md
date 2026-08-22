@@ -2,7 +2,7 @@
 
 *Lire dans une autre langue : [English](README.md) · **Français** (ce document).*
 
-[![Version](https://img.shields.io/badge/version-0.5.0-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.5.2-blue)](CHANGELOG.md)
 ![C++](https://img.shields.io/badge/C%2B%2B-17-00599C?logo=cplusplus)
 ![Qt](https://img.shields.io/badge/Qt-6-41CD52?logo=qt)
 ![Build](https://img.shields.io/badge/CMake-3.21+-064F8C?logo=cmake)
@@ -68,7 +68,7 @@ cmake --build --preset mingw
 
 > **Qt SerialPort** est la seule dépendance facultative : absente, le driver
 > LD2410C est désactivé (cœur + capteur `mock` compilent) - une alerte, jamais un
-> échec. Sur le Raspberry : `sudo apt install libqt6serialport6-dev`.
+> échec. Sur le Raspberry : `sudo apt install qt6-serialport-dev`.
 
 Pour resynchroniser la copie vendorée de morfBeacon depuis son dépôt source :
 `scripts/sync-morf.sh` (ou `scripts\sync-morf.ps1` sous Windows).

@@ -22,6 +22,15 @@ find_package(Qt6 REQUIRED COMPONENTS Core Network)
 # serie sont simplement absents. Sur le Raspberry : paquet libqt6serialport6.
 find_package(Qt6 QUIET COMPONENTS SerialPort)
 
+# --- Enregistrement des compilations (best-effort) ------------------------
+# Chronometre le vrai travail des compilateurs et signale la duree a
+# morfAnalytics (POST /api/monitor/activity), QUEL QUE SOIT le declencheur :
+# `cmake --build` direct, `morf upgrade` ou un deploiement morfDeploy (un
+# marqueur evite le double comptage cote morfDeploy). Sans URL configuree
+# (machine hors parc), c'est un no-op silencieux. A appeler AVANT les cibles.
+include("${CMAKE_CURRENT_SOURCE_DIR}/third_party/morf/morfdeploy/record_compile.cmake")
+morf_enable_compile_recording()
+
 # --- Dependance morfBeacon (annonce de presence sur le LAN) ---------------
 # morfBeacon est EMBARQUE (copie vendoree) dans third_party/morf/beacon, lie
 # statiquement, comme le font ComponentHub / SiteWatch. morfSensor se compile
@@ -64,7 +73,7 @@ if(TARGET Qt6::SerialPort)
 else()
     message(WARNING "morfSensor : Qt SerialPort absent -> driver LD2410C DESACTIVE "
                     "(cœur + capteurs simules seulement). Sur le Pi : installer "
-                    "libqt6serialport6-dev.")
+                    "qt6-serialport-dev.")
 endif()
 
 target_include_directories(morfSensor PUBLIC
@@ -85,6 +94,9 @@ endif()
 
 # --- Cible service (le demon autonome) ------------------------------------
 add_subdirectory(service)
+
+# Signale la duree de compile a morfAnalytics apres le lien du binaire de service.
+morf_record_target_build(morfsensor "morfSensor")
 
 # --- Exemple (compile seulement en build autonome, pas via add_subdirectory) -
 if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)

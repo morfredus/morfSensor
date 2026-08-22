@@ -3,6 +3,18 @@
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [0.5.2] - 2026-08-21
+
+### Ajouté
+
+- Enregistrement des compilations au niveau CMake (record_compile) : la durée de compile est signalée à morfAnalytics quel que soit le déclencheur (cmake --build direct, morf upgrade, déploiement morfDeploy).
+
+## [0.5.1] - 2026-08-21
+
+### Modifié
+
+- Resynchroniser la copie vendorée de morfdeploy vers 0.17.3.
+
 ## [0.5.0] - 2026-08-20
 
 ### Ajouté
@@ -15,7 +27,7 @@ et du [versionnage sémantique](https://semver.org/lang/fr/).
 ### Ajouté
 
 - **Déclaration de dépendance système** dans `service.json` : `qt-serialport`
-  (paquet Debian `libqt6serialport6-dev`), **optionnelle**, `required_for` le
+  (paquet Debian `qt6-serialport-dev`), **optionnelle**, `required_for` le
   driver radar `ld2410c`. morfDeploy 0.7.0 la détecte et propose de l'installer
   lors de `deploy`/`install` sur une machine devant piloter le capteur ; son
   absence n'empêche rien (cœur + capteurs simulés). Formalise le besoin repéré au

@@ -32,7 +32,7 @@
       "id": "qt-serialport",
       "label": "Qt SerialPort",
       "required_for": ["ld2410c"],
-      "packages": { "debian": ["libqt6serialport6-dev"] },
+      "packages": { "debian": ["qt6-serialport-dev"] },
       "required": false
     }
   ]
