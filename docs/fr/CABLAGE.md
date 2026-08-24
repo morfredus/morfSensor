@@ -10,8 +10,8 @@ configure pas le module (réglages d'usine suffisants pour la détection).
 
 ## Raccordement
 
-Le LD2410C expose 5 broches : `VCC`, `GND`, `TX`, `RX`, `OUT` (sortie tout-ou-rien,
-non utilisée ici - morfSensor lit l'UART, plus riche).
+Le LD2410C expose 5 broches : `VCC`, `GND`, `TX`, `RX`, `OUT` (sortie tout-ou-rien
+de présence).
 
 | LD2410C | Broche Pi (BCM) | Broche physique | Remarque |
 |---|---|---|---|
@@ -19,6 +19,16 @@ non utilisée ici - morfSensor lit l'UART, plus riche).
 | `GND` | GND | 6 | masse commune |
 | `TX`  | GPIO15 / RXD | 10 | **TX du capteur → RX du Pi** |
 | `RX`  | GPIO14 / TXD | 8  | RX du capteur ← TX du Pi (non requis en lecture seule) |
+| `OUT` | GPIO23 (entrée) | 16 | sortie tout-ou-rien (3,3 V) : présence brute |
+
+> ℹ️ La détection utile passe par l'**UART** (`TX`/`RX`), plus riche : distance,
+> énergie, présence lissée. La broche `OUT` n'est qu'un niveau haut/bas (présent /
+> absent) piloté par les seuils d'usine du module. morfSensor décode aujourd'hui
+> l'UART ; `OUT` est câblée sur **GPIO23 (broche 16), configuré en entrée** comme
+> repli rapide et pour un usage futur (ex. réveil matériel), mais elle n'est pas
+> encore lue par le service. Ne jamais piloter GPIO23 en sortie tant qu'il est
+> relié à `OUT` (conflit électrique). Le brochage de référence complet du parc est
+> `morfDashboard/docs/fr/CONVENTIONS-CABLAGE-PI4.md`.
 
 > ⚠️ Les E/S du LD2410C sont en 3,3 V : relier `TX`/`RX` directement aux GPIO du
 > Pi (3,3 V), **pas** via un niveau 5 V. Alimenter en 5 V, signaux en 3,3 V.

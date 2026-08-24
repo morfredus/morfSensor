@@ -3,6 +3,16 @@
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [0.5.3] - 2026-08-24
+
+### Modifié
+
+- `docs/fr/CABLAGE.md` : compléter le brochage du LD2410C avec la broche **OUT**,
+  câblée sur **GPIO23 (broche physique 16), en entrée**, conformément au brochage
+  de référence du parc (`morfDashboard/docs/fr/CONVENTIONS-CABLAGE-PI4.md`). OUT
+  reste une présence brute non lue par le service (détection via UART) ; note
+  ajoutée pour ne jamais piloter GPIO23 en sortie tant qu'il est relié à OUT.
+
 ## [0.5.2] - 2026-08-21
 
 ### Ajouté
