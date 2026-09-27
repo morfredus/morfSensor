@@ -2,7 +2,7 @@
 
 *Lire dans une autre langue : [English](README.md) · **Français** (ce document).*
 
-[![Version](https://img.shields.io/badge/version-0.5.5-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.5.8-blue)](CHANGELOG.md)
 ![C++](https://img.shields.io/badge/C%2B%2B-17-00599C?logo=cplusplus)
 ![Qt](https://img.shields.io/badge/Qt-6-41CD52?logo=qt)
 ![Build](https://img.shields.io/badge/CMake-3.21+-064F8C?logo=cmake)
@@ -101,9 +101,6 @@ Un seul point d'entree partout. Ce qu'est ce service - son nom, son dossier,
 ses configurations - est declare dans `service.json` a cote. Les quatre etapes
 d'installation vivent une seule fois pour tout le parc ; seul le gestionnaire
 de services change selon la plateforme.
-
-Les anciens scripts `scripts/linux/` et `scripts/windows/` fonctionnent
-toujours, inchanges.
 
 ## Documentation
 

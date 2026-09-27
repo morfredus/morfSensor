@@ -1,5 +1,5 @@
 /*
- * morfSensor — demon de service
+ * morfSensor - demon de service
  * Copyright (C) 2026 morfredus
  * SPDX-License-Identifier: GPL-3.0-only
  *
@@ -82,7 +82,7 @@ int main(int argc, char** argv) {
 
     QCommandLineParser parser;
     parser.setApplicationDescription(
-        QStringLiteral("morfSensor — service de capteurs (LD2410C et autres) "
+        QStringLiteral("morfSensor - service de capteurs (LD2410C et autres) "
                        "avec API HTTP et annonce LAN morfBeacon."));
     parser.addHelpOption();
     parser.addVersionOption();

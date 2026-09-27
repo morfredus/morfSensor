@@ -28,7 +28,7 @@ class ISensor : public QObject {
 public:
     // id    : identifiant unique dans le service (ex. "presence-salon").
     // kind  : famille de mesure ("presence", "temperature", "humidity",
-    //         "distance", "light", ...) — libre, mais "presence" a un sens
+    //         "distance", "light", ...) - libre, mais "presence" a un sens
     //         particulier pour l'agregation /presence.
     ISensor(QString id, QString kind, QObject* parent = nullptr)
         : QObject(parent), m_id(std::move(id)), m_kind(std::move(kind)) {}

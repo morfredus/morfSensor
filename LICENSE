@@ -1,4 +1,4 @@
-morfSensor — autonomous sensor service (LD2410C and more) with HTTP API + LAN beacon
+morfSensor - autonomous sensor service (LD2410C and more) with HTTP API + LAN beacon
 Copyright (C) 2026 morfredus (Frederic Biron)
 SPDX-License-Identifier: GPL-3.0-only
 

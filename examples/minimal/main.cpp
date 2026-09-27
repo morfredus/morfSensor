@@ -1,5 +1,5 @@
 /*
- * morfSensor — exemple de demonstration
+ * morfSensor - exemple de demonstration
  * Copyright (C) 2026 morfredus
  * SPDX-License-Identifier: GPL-3.0-only
  *
