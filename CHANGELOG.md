@@ -3,6 +3,14 @@
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [0.5.12] - 2026-10-10
+
+### Changed
+
+- **Hardened systemd unit**: `ProtectSystem=strict`, `ProtectHome`, `PrivateTmp`,
+  `NoNewPrivileges`. The service writes no file; the serial port stays reachable and
+  `/run/lock` stays writable for the port lock.
+
 ## [0.5.11] - 2026-10-10
 
 ### Changed
