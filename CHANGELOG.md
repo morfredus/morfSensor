@@ -3,6 +3,16 @@
 Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/)
 et du [versionnage sémantique](https://semver.org/lang/fr/).
 
+## [0.5.14] - 2026-11-07
+
+### Fixed
+
+- Closing the serial port now stops the freshness watchdog, so its timeout no longer overwrites the
+  serial `error` state with a `warning`.
+- SIGTERM and SIGINT stop the event loop cleanly, so `stop()` runs on every systemd stop or update.
+- Everything written to stderr is flushed; the HTTP reply no longer blocks the main thread in
+  `waitForBytesWritten` (asynchronous close with a 10 s safety timer).
+
 ## [0.5.13] - 2026-10-15
 
 ### Changed

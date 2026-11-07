@@ -27,6 +27,9 @@ using morfsensor::ServiceConfig;
 namespace {
 
 QTextStream& out() { static QTextStream s(stdout); return s; }
+// err() est VIDE apres chaque ecriture : un QTextStream bufferise, et un demon systemd ne
+// se termine jamais. Sans vidage explicite, avertissements et erreurs n'atteignent
+// JAMAIS journalctl.
 QTextStream& err() { static QTextStream s(stderr); return s; }
 
 // Cherche un fichier de config aux emplacements usuels si aucun n'est fourni.
@@ -109,24 +112,29 @@ int main(int argc, char** argv) {
     if (configPath.isEmpty()) {
         err() << "Aucune configuration trouvee : demarrage avec un capteur simule "
                  "(type 'mock'). Fournir --config pour un vrai capteur.\n";
+        err().flush();
         config = fallbackConfig();
     } else {
         QString error;
         if (!loadConfig(configPath, &config, &error)) {
             err() << "Erreur de configuration : " << error << '\n';
+            err().flush();
             return 2;
         }
         out() << "Configuration chargee : " << configPath << '\n';
     }
 
     morfsensor::Service service(config);
-    for (const QString& w : service.warnings())
+    for (const QString& w : service.warnings()) {
         err() << "Avertissement : " << w << '\n';
+        err().flush();
+    }
 
     const bool ok = service.start();
     if (!ok) {
         err() << "Le serveur HTTP n'a pas pu ecouter sur le port "
               << config.httpPort << " (deja utilise ?).\n";
+        err().flush();
         return 3;
     }
 
@@ -135,6 +143,13 @@ int main(int argc, char** argv) {
           << config.bindAddress << ':' << service.httpPort()
           << "/  (routes : /presence /sensors /status /healthz)\n";
     out().flush();
+
+    // Arret propre (SIGTERM/SIGINT -> quit) : stop() du service ferme le serveur HTTP et
+    // laisse les modules persister leur etat avant la sortie.
+    QObject::connect(&app, &QCoreApplication::aboutToQuit, &service, [&service]() { service.stop(); });
+#ifdef Q_OS_UNIX
+    installSignalBridge(app);
+#endif
 
     return app.exec();
 }

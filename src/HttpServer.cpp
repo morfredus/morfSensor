@@ -18,6 +18,7 @@
 #include <QJsonDocument>
 #include <QDateTime>
 #include <QUrl>
+#include <QTimer>
 
 #include <utility>
 
@@ -119,14 +120,20 @@ void HttpServer::handleRequest(QTcpSocket* sock, const QByteArray& requestLine) 
     resp += body;
 
     sock->write(resp);
-    // Vider le tampon d'écriture AVANT de fermer : sur une grande réponse (page HTML,
-    // /status volumineux), le corps déborde du tampon socket (~20 Ko constaté) et
-    // `disconnectFromHost` seul en tronque la fin côté client. On draine jusqu'à ce
-    // qu'il ne reste rien à écrire, avec un délai de garde pour ne jamais bloquer.
-    while (sock->bytesToWrite() > 0)
-        if (!sock->waitForBytesWritten(2000))
-            break;
+    sock->flush();
+    // Fermeture ASYNCHRONE, jamais bloquante. disconnectFromHost() passe la socket en
+    // ClosingState et Qt draine le tampon restant EN ARRIERE-PLAN avant de fermer
+    // (disconnected -> deleteLater). Une boucle waitForBytesWritten bloquerait le THREAD
+    // PRINCIPAL le temps qu'un client lent absorbe la reponse, et gelerait au passage le
+    // heartbeat morfBeacon (meme event-loop).
     sock->disconnectFromHost();
+    // Garde-fou : un client reellement mort laisserait la socket en ClosingState. Coupure
+    // apres 10 s ; `sock` sert d'objet-contexte, donc le timer est annule si la socket est
+    // deja detruite (aucun pointeur pendouillant).
+    QTimer::singleShot(10000, sock, [sock]() {
+        if (sock->state() != QAbstractSocket::UnconnectedState)
+            sock->abort();
+    });
 }
 
 QByteArray HttpServer::routeBody(const QByteArray& rawPath, int& code, QByteArray& reason) const {

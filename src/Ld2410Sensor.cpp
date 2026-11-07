@@ -115,6 +115,9 @@ void Ld2410Sensor::closePortQuietly() {
     // Ferme le port en bloquant temporairement ses signaux : QSerialPort::close()
     // emet errorOccurred, ce qui, si on est deja dans le gestionnaire d'erreur,
     // provoquerait une recursion. blockSignals casse cette chaine proprement.
+    // Le watchdog de fraicheur est arrete AVANT tout : port ferme, il n'y a plus de trame
+    // a attendre, et son timeout ecraserait l'etat « error » serie par un « warning ».
+    m_staleTimer->stop();
     if (!m_port->isOpen())
         return;
     m_port->blockSignals(true);
