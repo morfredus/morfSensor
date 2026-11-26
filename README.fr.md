@@ -2,7 +2,7 @@
 
 *Lire dans une autre langue : [English](README.md) · **Français** (ce document).*
 
-[![Version](https://img.shields.io/badge/version-0.5.16-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.6.0-blue)](CHANGELOG.md)
 ![C++](https://img.shields.io/badge/C%2B%2B-17-00599C?logo=cplusplus)
 ![Qt](https://img.shields.io/badge/Qt-6-41CD52?logo=qt)
 ![Build](https://img.shields.io/badge/CMake-3.21+-064F8C?logo=cmake)
@@ -109,6 +109,19 @@ de services change selon la plateforme.
 - [Intégration](docs/fr/INTEGRATION.md) - **ajouter un type de capteur** ;
   brancher un consommateur.
 - [Câblage LD2410C](docs/fr/CABLAGE.md) - raccordement à l'UART du Pi.
+
+## Intégration continue
+
+Des workflows GitHub Actions vivent dans `.github/workflows/` (générés par le script morfTools
+`gen-ci-workflows.py`) :
+
+- **`ci.yml`** : à chaque pull request (et push sur `main`/`dev`), compile et lance les tests sous
+  Ubuntu 24.04 (Qt 6.4), Linux arm64 et Windows (MSYS2 UCRT64). Les changements de documentation seule l'ignorent et un run périmé est annulé
+  par un commit plus récent.
+- **`packages.yml`** : à chaque push sur `main` ou en lancement manuel (*Actions > Packages >
+  Run workflow*), construit le `.deb` amd64, le `.deb` arm64 et les paquets Windows. Les paquets sont des artefacts du workflow conservés
+  14 jours ; les releases sont publiées par l'outillage morfSystem, qui prend les paquets du run
+  du commit publié et ne compile en local que ce qui manque.
 
 ## Licence
 
